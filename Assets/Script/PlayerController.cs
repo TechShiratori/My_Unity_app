@@ -5,61 +5,72 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
 	public float speed = 4f;
-	//********** 開始 **********//
+	public float jumpPower = 700;
+	public LayerMask groundLayer;
 	public GameObject mainCamera;
+	//********** 開始 **********//
+	public GameObject bullet;
 	//********** 終了 **********//
+
 	private Rigidbody2D rigidbody2D;
 	private Animator anim;
+	private bool isGrounded;
 
-
-	// Use this for initialization
 	void Start () {
-
-		anim = GetComponent<Animator> ();
-		rigidbody2D = GetComponent<Rigidbody2D> ();
-
+		anim = GetComponent<Animator>();
+		rigidbody2D = GetComponent<Rigidbody2D>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+	void Update ()
+	{
+		isGrounded = Physics2D.Linecast (
+			transform.position + transform.up * 1,
+			transform.position - transform.up * 0.05f,
+			groundLayer);
+		if (Input.GetKeyDown ("space")) {
+			if (isGrounded) {
+				anim.SetTrigger("Jump");
+				isGrounded = false;
+				rigidbody2D.AddForce (Vector2.up * jumpPower);
+			}
+		}
+		float velY = rigidbody2D.velocity.y;
+		bool isJumping = velY > 0.1f ? true:false;
+		bool isFalling = velY < -0.1f ? true:false;
+		anim.SetBool("isJumping",isJumping);
+		anim.SetBool("isFalling",isFalling);
+		//********** 開始 **********//
+		if (Input.GetKeyDown ("left ctrl")){
+			anim.SetTrigger("Shot");
+			Instantiate(bullet, transform.position + new Vector3(0f,1.2f,0f), transform.rotation);
+		}
+		//********** 終了 **********//
+	}
+
+	void FixedUpdate ()
+	{
 		float x = Input.GetAxisRaw ("Horizontal");
-
 		if (x != 0) {
-			rigidbody2D.velocity = new Vector2(x * speed, rigidbody2D.velocity.y);
-
+			rigidbody2D.velocity = new Vector2 (x * speed, rigidbody2D.velocity.y);
 			Vector2 temp = transform.localScale;
 			temp.x = x;
 			transform.localScale = temp;
 
 			anim.SetBool("Run",true);
 
-			//********** 開始 **********//
-			//画面中央から左に4移動した位置をユニティちゃんが超えたら
 			if (transform.position.x > mainCamera.transform.position.x - 4) {
-				//カメラの位置を取得
 				Vector3 cameraPos = mainCamera.transform.position;
-				//ユニティちゃんの位置から右に4移動した位置を画面中央にする
 				cameraPos.x = transform.position.x + 4;
 				mainCamera.transform.position = cameraPos;
 			}
-			//カメラ表示領域の左下をワールド座標に変換
 			Vector2 min = Camera.main.ViewportToWorldPoint(new Vector2(0, 0));
-			//カメラ表示領域の右上をワールド座標に変換
 			Vector2 max = Camera.main.ViewportToWorldPoint(new Vector2(1, 1));
-			//ユニティちゃんのポジションを取得
 			Vector2 pos = transform.position;
-			//ユニティちゃんのx座標の移動範囲をClampメソッドで制限
 			pos.x = Mathf.Clamp(pos.x, min.x + 0.5f, max.x);
 			transform.position = pos;
-			//********** 終了 **********//
-
-
-
-			//左も右も入力していなかったら
 		} else {
-			//横移動の速度を0にしてピタッと止まるようにする
 			rigidbody2D.velocity = new Vector2 (0, rigidbody2D.velocity.y);
-			//Run→Wait
+
 			anim.SetBool ("Run", false);
 		}
 	}
