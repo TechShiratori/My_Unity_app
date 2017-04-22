@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour {
 	//********** 開始 **********//
 	public GameObject bullet;
 	//********** 終了 **********//
+	//********** 開始 **********//
+	private Renderer renderer;
+	//********** 終了 **********//
 
 	private Rigidbody2D rigidbody2D;
 	private Animator anim;
@@ -19,6 +22,9 @@ public class PlayerController : MonoBehaviour {
 	void Start () {
 		anim = GetComponent<Animator>();
 		rigidbody2D = GetComponent<Rigidbody2D>();
+		//********** 開始 **********//
+		renderer = GetComponent<Renderer>();
+		//********** 終了 **********//
 	}
 
 	void Update ()
@@ -74,4 +80,35 @@ public class PlayerController : MonoBehaviour {
 			anim.SetBool ("Run", false);
 		}
 	}
+
+	//********** 開始 **********//
+	void OnCollisionEnter2D (Collision2D col)
+	{
+		//Enemyとぶつかった時にコルーチンを実行
+		if (col.gameObject.tag == "Enemy") {
+			StartCoroutine ("Damage");
+		}
+	}
+
+	IEnumerator Damage ()
+	{
+		//レイヤーをPlayerDamageに変更
+		gameObject.layer = LayerMask.NameToLayer("PlayerDamage");
+		//while文を10回ループ
+		int count = 10;
+		while (count > 0){
+			//透明にする
+			renderer.material.color = new Color (1,1,1,0);
+			//0.05秒待つ
+			yield return new WaitForSeconds(0.05f);
+			//元に戻す
+			renderer.material.color = new Color (1,1,1,1);
+			//0.05秒待つ
+			yield return new WaitForSeconds(0.05f);
+			count--;
+		}
+		//レイヤーをPlayerに戻す
+		gameObject.layer = LayerMask.NameToLayer("Player");
+	}
+	//********** 終了 **********//
 }
