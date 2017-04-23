@@ -24,7 +24,7 @@ public class EnemyGenerator : MonoBehaviour {
 	void Update () {
 		enemy = GameObject.FindGameObjectsWithTag("Enemy");
 		timeCount += Time.deltaTime;
-		int rand = Random.Range (-50, 50);
+		int rand = Random.Range (-50, 10);
 
 
 		if (timeCount > 5 && enemy.Length < 10) {
