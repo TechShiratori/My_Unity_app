@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour {
 	private Animator anim;
 	private bool isGrounded;
 
-
+	private float direction = 1;
 
 	void Start () {
 		anim = GetComponent<Animator>();
@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour {
 		//移動判定
 		float x = Input.GetAxisRaw ("Horizontal");
 		if (x != 0) {
+			direction = x;
 			toRun (x);
 		}else {
 			rigidbody2D.velocity = new Vector2 (0, rigidbody2D.velocity.y);
@@ -54,7 +55,7 @@ public class PlayerController : MonoBehaviour {
 			
 		//Xキーを押した時:ショット
 		if (Input.GetKeyDown ("x")){
-			toShot ();
+			toShot (direction);
 		}
 			
 	}
@@ -83,9 +84,9 @@ public class PlayerController : MonoBehaviour {
 	}
 
 
-	void toShot(){
+	void toShot(float x){
 		anim.SetTrigger("Shot");
-		Instantiate(bullet, transform.position + new Vector3(0f,1.2f,0f), transform.rotation);
+		Instantiate(bullet, transform.position + new Vector3(x,1.2f,0f), transform.rotation);
 	}
 
 

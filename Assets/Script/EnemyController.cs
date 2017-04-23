@@ -7,35 +7,45 @@ public class EnemyController: MonoBehaviour {
 	public int speed = -3;
 	public GameObject explosion;
 	public GameObject item;
-	//********** 開始 **********//
+
 	public int attackPoint = 10;
 	public LifeController lifeScript;
-	//********** 終了 **********//
 
-	//********** 開始 **********//
+	private GameObject unitychan;
+
 	//メインカメラのタグ名　constは定数(絶対に変わらない値)
 	private const string MAIN_CAMERA_TAG_NAME = "MainCamera";
 	//カメラに映っているかの判定
 	private bool _isRendered = false;
-	//********** 終了 **********//
 
 
 	void Start () {
 		rigidbody2D = GetComponent<Rigidbody2D>();
 		lifeScript = GameObject.FindGameObjectWithTag("HP").GetComponent<LifeController>();
+		this.unitychan = GameObject.FindWithTag ("UnityChan");
 	}
 
 	void Update () {
-		//********** 開始 **********//
 		if (_isRendered) {
-			rigidbody2D.velocity = new Vector2 (speed, rigidbody2D.velocity.y);
+			if (this.unitychan.transform.position.x < this.transform.position.x) {
+				rigidbody2D.velocity = new Vector2 (speed, rigidbody2D.velocity.y);
+
+				Vector2 temp = transform.localScale;
+				temp.x = 1;
+				this.transform.localScale = temp;
+			}
+			if (this.unitychan.transform.position.x > this.transform.position.x) {
+				rigidbody2D.velocity = new Vector2 (-1 * speed, rigidbody2D.velocity.y);
+
+				Vector2 temp = transform.localScale;
+				temp.x = -1;
+				this.transform.localScale = temp;
+			}
 		}
-		//********** 終了 **********//
 	}
 
 	void OnTriggerEnter2D (Collider2D col)
 	{
-		//********** 開始 **********//
 		if (_isRendered) {
 			if (col.tag == "Bullet") {
 				Destroy (gameObject);
@@ -45,16 +55,9 @@ public class EnemyController: MonoBehaviour {
 				}
 			}
 		}
-		//********** 終了 **********//
-
-		//********** 開始 **********//
-		//四分の一の確率で回復アイテムを落とす
-		if (Random.Range (0, 4) == 0) {
-			Instantiate (item, transform.position, transform.rotation);
-			//********** 終了 **********//
-		}
 	}
-	//********** 開始 **********//
+
+
 	void OnCollisionEnter2D (Collision2D col)
 	{
 		//UnityChanとぶつかった時
@@ -63,9 +66,7 @@ public class EnemyController: MonoBehaviour {
 			lifeScript.LifeDown(attackPoint);
 		}
 	}
-	//********** 終了 **********//
 
-	//********** 開始 **********//
 	//Rendererがカメラに映ってる間に呼ばれ続ける
 	void OnWillRenderObject()
 	{
@@ -74,5 +75,4 @@ public class EnemyController: MonoBehaviour {
 			_isRendered = true;
 		}
 	}
-	//********** 終了 **********//
 }
