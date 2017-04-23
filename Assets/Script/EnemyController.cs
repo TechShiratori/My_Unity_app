@@ -27,22 +27,24 @@ public class EnemyController: MonoBehaviour {
 
 	void Update () {
 		if (_isRendered) {
+			
 			if (this.unitychan.transform.position.x < this.transform.position.x) {
-				rigidbody2D.velocity = new Vector2 (speed, rigidbody2D.velocity.y);
+				toMove (1);
 
-				Vector2 temp = transform.localScale;
-				temp.x = 1;
-				this.transform.localScale = temp;
-			}
-			if (this.unitychan.transform.position.x > this.transform.position.x) {
-				rigidbody2D.velocity = new Vector2 (-1 * speed, rigidbody2D.velocity.y);
-
-				Vector2 temp = transform.localScale;
-				temp.x = -1;
-				this.transform.localScale = temp;
+			} else if (this.unitychan.transform.position.x > this.transform.position.x) {
+				toMove (-1);
 			}
 		}
 	}
+		
+	void toMove(float x){
+		rigidbody2D.velocity = new Vector2 (speed * x, rigidbody2D.velocity.y);
+
+		Vector2 temp = transform.localScale;
+		temp.x = x;
+		this.transform.localScale = temp;
+	}
+
 
 	void OnTriggerEnter2D (Collider2D col)
 	{
