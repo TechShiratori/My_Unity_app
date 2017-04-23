@@ -16,7 +16,6 @@ public class LifeController : MonoBehaviour {
 		rt.sizeDelta -= new Vector2 (0,ap);
 	}
 
-	//********** 開始 **********//
 	public void LifeUp (int hp)
 	{
 		//RectTransformのサイズを取得し、プラスする
@@ -26,6 +25,4 @@ public class LifeController : MonoBehaviour {
 			rt.sizeDelta = new Vector2 (51f, 240f);
 		}
 	}
-	//********** 終了 **********//
-
 }
