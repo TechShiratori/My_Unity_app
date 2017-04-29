@@ -67,6 +67,7 @@ public class EnemyController: MonoBehaviour {
 			lifeScript = GameObject.Find("PlayerUI").GetComponent<LifeController>();
 			//LifeScriptのLifeDownメソッドを実行
 			lifeScript.LifeDown(attackPoint);
+			lifeScript.InfectionUp(attackPoint/10);
 		}
 	}
 
