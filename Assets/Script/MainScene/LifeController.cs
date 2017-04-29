@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class LifeController : MonoBehaviour {
 
+	[SerializeField] private GameObject hPBar;
 	RectTransform rt;
 
 	void Start ()
 	{
-		rt = GetComponent<RectTransform>();
+		rt = hPBar.GetComponent<RectTransform>();
+		//rt = GetComponent<RectTransform>();
 	}
 
 	public void LifeDown (int ap){

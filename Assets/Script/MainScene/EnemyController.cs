@@ -9,7 +9,8 @@ public class EnemyController: MonoBehaviour {
 	public GameObject item;
 
 	public int attackPoint = 10;
-	public LifeController lifeScript;
+	private LifeController lifeScript;
+	//[SerializeField] private GameObject LifeControllerObject;
 
 	private GameObject unitychan;
 
@@ -21,7 +22,6 @@ public class EnemyController: MonoBehaviour {
 
 	void Start () {
 		rigidbody2D = GetComponent<Rigidbody2D>();
-		lifeScript = GameObject.FindGameObjectWithTag("HP").GetComponent<LifeController>();
 		this.unitychan = GameObject.FindWithTag ("UnityChan");
 	}
 
@@ -64,6 +64,7 @@ public class EnemyController: MonoBehaviour {
 	{
 		//UnityChanとぶつかった時
 		if (col.gameObject.tag == "UnityChan") {
+			lifeScript = GameObject.Find("PlayerUI").GetComponent<LifeController>();
 			//LifeScriptのLifeDownメソッドを実行
 			lifeScript.LifeDown(attackPoint);
 		}
