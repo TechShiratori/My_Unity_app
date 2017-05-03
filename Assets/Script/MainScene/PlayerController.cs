@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour {
 	private bool nextArea;
 
 	private float direction = 1;
+	private string State = "";
 
 	[SerializeField] private Fade m_fade;
 

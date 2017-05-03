@@ -1,52 +1,61 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LifeController : MonoBehaviour {
 
 	[SerializeField] private GameObject m_hPBar;
 	[SerializeField] private GameObject m_infectionBar;
-	RectTransform hprt;
-	RectTransform inrt;
+	[SerializeField] private GameObject m_startPoint;
+	[SerializeField] private Fade m_fade;
+	Image hpImage;
+	Image inImage;
 
 	void Start ()
 	{
-		hprt = m_hPBar.GetComponent<RectTransform>();
-		inrt = m_infectionBar.GetComponent<RectTransform>();
-		//rt = GetComponent<RectTransform>();
+		hpImage = m_hPBar.GetComponent<Image> ();
+		inImage = m_infectionBar.GetComponent<Image> ();
 	}
 
-	public void LifeDown (int ap){
-		//RectTransformのサイズを取得し、マイナスする
-		hprt.sizeDelta -= new Vector2 (0,ap);
+	public void LifeDown (float hp,GameObject player){
+		hpImage.fillAmount -= hp / 500f;
+		if (hpImage.fillAmount <= 0) {
+			Restart (player);
+		}
 	}
 
-	public void LifeUp (int hp)
+	public void LifeUp (float hp)
 	{
-		//RectTransformのサイズを取得し、プラスする
-		hprt.sizeDelta += new Vector2 (0,hp);
-		//最大値を超えたら、最大値で上書きする
-		if (hprt.sizeDelta.y > 240f) {
-			hprt.sizeDelta = new Vector2 (51f, 240f);
+		hpImage.fillAmount += hp / 500f;
+		if (hpImage.fillAmount >= 1) {
+			hpImage.fillAmount = 1;
 		}
+
 	}
 
-	public void InfectionDown (int infection){
-		//RectTransformのサイズを取得し、マイナスする
-		hprt.sizeDelta -= new Vector2 (0,infection);
-		//最小値を超えたら、最小値で上書きする
-		if (inrt.sizeDelta.x < 0) {
-			inrt.sizeDelta = new Vector2 (0, 0);
-		}
+	public void InfectionDown (float infection){
+		inImage.fillAmount -= infection / 250f;
 	}
 
-	public void InfectionUp (int infection)
+	public void InfectionUp (float infection,GameObject player)
 	{
-		//RectTransformのサイズを取得し、プラスする
-		inrt.sizeDelta += new Vector2 (infection,0);
-		//最大値を超えたら、最大値で上書きする
-		if (hprt.sizeDelta.x > 500f) {
-			hprt.sizeDelta = new Vector2 (500f, 20f);
+		inImage.fillAmount += infection / 250f;
+		if (inImage.fillAmount >= 1) {
+			GameOver();
 		}
+	}
+
+	public void Restart(GameObject player){
+		m_fade.FadeIn (0.3f, () => {
+			player.gameObject.transform.position = m_startPoint.gameObject.transform.position;
+			hpImage.fillAmount = 1;
+			m_fade.FadeOut (0.3f);
+		});
+	}
+
+	public void GameOver(){
+		m_fade.FadeIn (0.3f);
+		Application.LoadLevel ("GameOver");
 	}
 }
