@@ -25,8 +25,9 @@ public class LifeController : MonoBehaviour {
 		}
 	}
 
-	public void LifeUp (float hp)
+	public void LifeUp (GameObject recoverITem)
 	{
+		float hp = 20;
 		hpImage.fillAmount += hp / 500f;
 		if (hpImage.fillAmount >= 1) {
 			hpImage.fillAmount = 1;

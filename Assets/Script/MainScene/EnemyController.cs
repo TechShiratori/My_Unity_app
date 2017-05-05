@@ -52,7 +52,7 @@ public class EnemyController: MonoBehaviour {
 			if (col.tag == "Bullet") {
 				Destroy (gameObject);
 				Instantiate (explosion, transform.position, transform.rotation);
-				if (Random.Range (0, 4) == 0) {
+				if (Random.Range (0, 2) == 0) {
 					Instantiate (item, transform.position, transform.rotation);
 				}
 			}

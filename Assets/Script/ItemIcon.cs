@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActSceneContoller : MonoBehaviour {
-
-	[SerializeField] LifeController m_lifeScript;
-	[SerializeField] EnemyController m_enemyScript;
+public class ItemIcon : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

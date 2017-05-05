@@ -9,9 +9,12 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] private LayerMask groundLayer;
 	[SerializeField] private GameObject mainCamera;
 	[SerializeField] private GameObject bullet;
-	private Renderer renderer;
+	[SerializeField] private GameObject PlayerMenu;
+	[SerializeField] private LifeController lifeScript;
+	[SerializeField] private ActSceneContoller m_actSceneController;
+	private Renderer m_renderer;
 
-	private Rigidbody2D rigidbody2D;
+	private Rigidbody2D m_rigidbody2D;
 	private Animator anim;
 	private bool isGrounded;
 	private bool nextArea;
@@ -23,11 +26,24 @@ public class PlayerController : MonoBehaviour {
 
 	void Start () {
 		anim = GetComponent<Animator>();
-		rigidbody2D = GetComponent<Rigidbody2D>();
-		renderer = GetComponent<Renderer>();
+		m_rigidbody2D = GetComponent<Rigidbody2D>();
+		m_renderer = GetComponent<Renderer>();
+		float dx = Time.deltaTime * 1f;
 	}
 
-	void Update ()
+	void Update(){
+		if (Input.GetKeyDown ("q")){
+			if (Time.timeScale == 0) {
+                    Time.timeScale = 1;
+					PlayerMenu.SetActive(false);
+                } else {
+                    Time.timeScale = 0;
+					PlayerMenu.SetActive(true);
+                }
+		}
+	}
+
+	void FixedUpdate ()
 	{
 		//接地判定
 		isGrounded = Physics2D.Linecast (
@@ -36,7 +52,7 @@ public class PlayerController : MonoBehaviour {
 			groundLayer);
 
 		//ジャンプ中or落下中の判定
-		float velY = rigidbody2D.velocity.y;
+		float velY = m_rigidbody2D.velocity.y;
 		bool isJumping = velY > 0.1f ? true:false;
 		bool isFalling = velY < -0.1f ? true:false;
 		anim.SetBool("isJumping",isJumping);
@@ -48,7 +64,7 @@ public class PlayerController : MonoBehaviour {
 			direction = x;
 			toRun (x);
 		}else {
-			rigidbody2D.velocity = new Vector2 (0, rigidbody2D.velocity.y);
+			m_rigidbody2D.velocity = new Vector2 (0, m_rigidbody2D.velocity.y);
 			anim.SetBool ("Run", false);
 		}
 
@@ -74,7 +90,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void toRun(float x){
-		rigidbody2D.velocity = new Vector2 (x * speed, rigidbody2D.velocity.y);
+		m_rigidbody2D.velocity = new Vector2 (x * speed, m_rigidbody2D.velocity.y);
 		Vector2 temp = transform.localScale;
 		temp.x = x;
 		transform.localScale = temp;
@@ -92,7 +108,7 @@ public class PlayerController : MonoBehaviour {
 		if (isGrounded) {
 			anim.SetTrigger("Jump");
 			isGrounded = false;
-			rigidbody2D.AddForce (Vector2.up * jumpPower);
+			m_rigidbody2D.AddForce (Vector2.up * jumpPower);
 		}
 	}
 
@@ -108,6 +124,11 @@ public class PlayerController : MonoBehaviour {
 		//Enemyとぶつかった時にコルーチンを実行
 		if (col.gameObject.tag == "Enemy") {
 			StartCoroutine ("Damage");
+
+		}
+		if (col.gameObject.tag == "Item") {
+			var Item = col.gameObject;
+			m_actSceneController.GetITem(Item);
 		}
 	}
 
@@ -131,11 +152,11 @@ public class PlayerController : MonoBehaviour {
 		int count = 10;
 		while (count > 0){
 			//透明にする
-			renderer.material.color = new Color (1,1,1,0);
+			m_renderer.material.color = new Color (1,1,1,0);
 			//0.05秒待つ
 			yield return new WaitForSeconds(0.05f);
 			//元に戻す
-			renderer.material.color = new Color (1,1,1,1);
+			m_renderer.material.color = new Color (1,1,1,1);
 			//0.05秒待つ
 			yield return new WaitForSeconds(0.05f);
 			count--;
