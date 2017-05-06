@@ -18,6 +18,8 @@ public class MainMenuController : MonoBehaviour {
 	}
 	[SerializeField] private GameObject m_playerMenu;
 	[SerializeField] private GameObject m_cursor;
+	[SerializeField] private ItemMenuController m_itemMenuController;
+	[SerializeField] private ActSceneContoller m_act;
 	private MenuButton ex;
 
 	// Use this for initialization
@@ -59,7 +61,9 @@ public class MainMenuController : MonoBehaviour {
 				}
 			}
 			count = 0;
+			Debug.Log(m_act.itemListName[0]);
 			selectMenu.SetActive(true);
+			m_itemMenuController.Open();
 			thisMenu = this.gameObject;
 			thisMenu.SetActive(false);
 		}

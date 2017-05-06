@@ -18,12 +18,6 @@ public class ItemController : MonoBehaviour {
 	public bool importantFlag;
 
 	public int healPoint;
+	public string m_itemExplain;
 	private LifeController lifeScript;
-	void Start ()
-	{
-	}
-
-	void OnCollisionEnter2D (Collision2D col)
-	{
-	}
 }

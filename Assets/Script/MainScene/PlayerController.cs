@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] private LayerMask groundLayer;
 	[SerializeField] private GameObject mainCamera;
 	[SerializeField] private GameObject bullet;
-	[SerializeField] private GameObject PlayerMenu;
+	[SerializeField] private GameObject mainMenu;
 	[SerializeField] private LifeController lifeScript;
 	[SerializeField] private ActSceneContoller m_actSceneController;
 	private Renderer m_renderer;
@@ -35,10 +35,10 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetKeyDown ("q")){
 			if (Time.timeScale == 0) {
                     Time.timeScale = 1;
-					PlayerMenu.SetActive(false);
+					mainMenu.SetActive(false);
                 } else {
                     Time.timeScale = 0;
-					PlayerMenu.SetActive(true);
+					mainMenu.SetActive(true);
                 }
 		}
 	}
@@ -127,8 +127,8 @@ public class PlayerController : MonoBehaviour {
 
 		}
 		if (col.gameObject.tag == "Item") {
-			var Item = col.gameObject;
-			m_actSceneController.GetITem(Item);
+			m_actSceneController.GetITem(col.gameObject);
+			Destroy(col.gameObject);
 		}
 	}
 

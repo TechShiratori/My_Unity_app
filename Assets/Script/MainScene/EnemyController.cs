@@ -7,6 +7,7 @@ public class EnemyController: MonoBehaviour {
 	public int speed = -3;
 	public GameObject explosion;
 	public GameObject item;
+	public GameObject item2;
 
 	public float attackPoint = 10;
 	private LifeController lifeScript;
@@ -52,8 +53,11 @@ public class EnemyController: MonoBehaviour {
 			if (col.tag == "Bullet") {
 				Destroy (gameObject);
 				Instantiate (explosion, transform.position, transform.rotation);
-				if (Random.Range (0, 2) == 0) {
+				int randomValue = Random.Range(0,2);
+				if (randomValue == 0) {
 					Instantiate (item, transform.position, transform.rotation);
+				}else if (randomValue == 1){
+					Instantiate (item2, transform.position, transform.rotation);
 				}
 			}
 		}
