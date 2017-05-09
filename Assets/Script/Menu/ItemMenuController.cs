@@ -65,6 +65,7 @@ public class ItemMenuController : MonoBehaviour {
 			Debug.Log(keyPosition);
 			SelectCursor(keyPosition);
 		}else if (Input.GetKey(KeyCode.Z) && count > 8){
+			count = 0;
 			m_itemIconGroup.UseItem(keyPosition);
 		}
 

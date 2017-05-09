@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] private GameObject mainCamera;
 	[SerializeField] private GameObject bullet;
 	[SerializeField] private GameObject mainMenu;
+	[SerializeField] private GameObject itemMenu;
 	[SerializeField] private LifeController lifeScript;
 	[SerializeField] private ActSceneContoller m_actSceneController;
 	private Renderer m_renderer;
@@ -20,7 +21,7 @@ public class PlayerController : MonoBehaviour {
 	private bool nextArea;
 
 	private float direction = 1;
-	private string State = "";
+	static string State = "";
 
 	[SerializeField] private Fade m_fade;
 
@@ -29,18 +30,39 @@ public class PlayerController : MonoBehaviour {
 		m_rigidbody2D = GetComponent<Rigidbody2D>();
 		m_renderer = GetComponent<Renderer>();
 		float dx = Time.deltaTime * 1f;
+		State = "Action";
 	}
 
 	void Update(){
-		if (Input.GetKeyDown ("q")){
-			if (Time.timeScale == 0) {
-                    Time.timeScale = 1;
-					mainMenu.SetActive(false);
-                } else {
-                    Time.timeScale = 0;
-					mainMenu.SetActive(true);
-                }
-		}
+
+			switch(State){
+				case "MainMenu":
+					if (Input.GetKeyDown ("q")){
+						Time.timeScale = 1;
+						State = "Action";
+						mainMenu.SetActive(false);
+						Debug.Log(State);
+					}
+					break;
+				case "ItemMenu":
+					if (Input.GetKeyDown ("q")){
+						State = "MainmMenu";
+						itemMenu.SetActive(false);
+						mainMenu.SetActive(true);
+						Debug.Log(State);
+					}
+					break;
+				case "Action":
+					if (Input.GetKeyDown ("q")){
+						Time.timeScale = 0;
+						State = "MainMenu";
+						mainMenu.SetActive(true);
+						Debug.Log(State);
+					}	
+					break;
+				default:
+					break;
+			}
 	}
 
 	void FixedUpdate ()
@@ -128,6 +150,11 @@ public class PlayerController : MonoBehaviour {
 		}
 		if (col.gameObject.tag == "Item") {
 			m_actSceneController.GetITem(col.gameObject);
+			Destroy(col.gameObject);
+		}
+		if (col.gameObject.tag == "Point") {
+			m_actSceneController.AllPoint += 50;
+			Debug.Log(m_actSceneController.AllPoint);
 			Destroy(col.gameObject);
 		}
 	}

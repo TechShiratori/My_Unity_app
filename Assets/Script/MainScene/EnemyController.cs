@@ -8,6 +8,7 @@ public class EnemyController: MonoBehaviour {
 	public GameObject explosion;
 	public GameObject item;
 	public GameObject item2;
+	public GameObject Point;
 
 	public float attackPoint = 10;
 	private LifeController lifeScript;
@@ -59,6 +60,7 @@ public class EnemyController: MonoBehaviour {
 				}else if (randomValue == 1){
 					Instantiate (item2, transform.position, transform.rotation);
 				}
+				Instantiate (Point, transform.position, transform.rotation);
 			}
 		}
 	}

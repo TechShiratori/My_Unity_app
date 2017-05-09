@@ -5,6 +5,7 @@ using UnityEngine;
 public class ActSceneContoller : MonoBehaviour {
     public int numberOfWin = 0;
     public int numberOfLose = 0;
+	public int AllPoint = 0;
 	public GameObject test; 
 	public List<GameObject> itemList;
 	public List<string> itemListName  = new List<string>();

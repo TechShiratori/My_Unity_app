@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 public class MainMenuController : MonoBehaviour {
 	private int keyPosition;
@@ -20,6 +21,8 @@ public class MainMenuController : MonoBehaviour {
 	[SerializeField] private GameObject m_cursor;
 	[SerializeField] private ItemMenuController m_itemMenuController;
 	[SerializeField] private ActSceneContoller m_act;
+	[SerializeField] private Text m_pointText;
+	[SerializeField] private Text m_playerController;
 	private MenuButton ex;
 
 	// Use this for initialization
@@ -56,18 +59,23 @@ public class MainMenuController : MonoBehaviour {
 		}
 		else if(Input.GetKey(KeyCode.Z) && count > 8){
 			for(int i = 0; i < m_playerMenu.transform.childCount; i++){
-				if(selectSceneName == m_playerMenu.transform.GetChild (i).gameObject.name){
-					selectMenu = m_playerMenu.transform.GetChild (i).gameObject;
+				if(selectSceneName == m_playerMenu.transform.GetChild(i).gameObject.name){
+					selectMenu = m_playerMenu.transform.GetChild(i).gameObject;
 				}
 			}
 			count = 0;
 			Debug.Log(m_act.itemListName[0]);
 			selectMenu.SetActive(true);
-			m_itemMenuController.Open();
 			thisMenu = this.gameObject;
 			thisMenu.SetActive(false);
+			if(selectSceneName == "ItemMenu"){
+				m_itemMenuController.Open();
+			}else if (selectSceneName == "SkillMenu"){
+				Debug.Log("Skill");
+			}
 		}
 		count++;
+		m_pointText.text = "SearchPoint:" + m_act.AllPoint.ToString();
 	}
 	private void SelectCursor(int m_select){
 		count = 0;

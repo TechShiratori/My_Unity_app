@@ -20,4 +20,5 @@ public class ItemController : MonoBehaviour {
 	public int healPoint;
 	public string m_itemExplain;
 	private LifeController lifeScript;
+	public int Point;
 }
