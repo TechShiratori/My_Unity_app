@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LifeController : MonoBehaviour {
+public class UIController : MonoBehaviour {
 
 	[SerializeField] private GameObject m_hPBar;
 	[SerializeField] private GameObject m_infectionBar;

@@ -11,7 +11,7 @@ public class EnemyController: MonoBehaviour {
 	public GameObject Point;
 
 	public float attackPoint = 10;
-	private LifeController lifeScript;
+	private UIController lifeScript;
 	//[SerializeField] private GameObject LifeControllerObject;
 
 	private GameObject unitychan;
@@ -70,7 +70,7 @@ public class EnemyController: MonoBehaviour {
 	{
 		//UnityChanとぶつかった時
 		if (col.gameObject.tag == "UnityChan") {
-			lifeScript = GameObject.Find("PlayerUI").GetComponent<LifeController>();
+			lifeScript = GameObject.Find("PlayerUI").GetComponent<UIController>();
 			//LifeScriptのLifeDownメソッドを実行
 			lifeScript.LifeDown(attackPoint,col.gameObject);
 			lifeScript.InfectionUp(attackPoint/10,col.gameObject);

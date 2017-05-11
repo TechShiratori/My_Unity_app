@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemController : MonoBehaviour {
+public class ItemManager : MonoBehaviour {
 
 	public enum itemType{
 		RecoverItem = 1,
@@ -14,11 +14,10 @@ public class ItemController : MonoBehaviour {
 		OtherItem,
 		Weapon
 	}
-
+	public itemType m_itemType;
 	public bool importantFlag;
-
 	public int healPoint;
 	public string m_itemExplain;
-	private LifeController lifeScript;
+	private UIController lifeScript;
 	public int Point;
 }

@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] private GameObject bullet;
 	[SerializeField] private GameObject mainMenu;
 	[SerializeField] private GameObject itemMenu;
-	[SerializeField] private LifeController lifeScript;
+	[SerializeField] private UIController lifeScript;
 	[SerializeField] private ActSceneContoller m_actSceneController;
 	private Renderer m_renderer;
 
@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour {
 	private bool nextArea;
 
 	private float direction = 1;
-	static string State = "";
+	//static string State = "";
 
 	[SerializeField] private Fade m_fade;
 
@@ -29,44 +29,16 @@ public class PlayerController : MonoBehaviour {
 		anim = GetComponent<Animator>();
 		m_rigidbody2D = GetComponent<Rigidbody2D>();
 		m_renderer = GetComponent<Renderer>();
-		float dx = Time.deltaTime * 1f;
-		State = "Action";
 	}
 
 	void Update(){
-
-			switch(State){
-				case "MainMenu":
-					if (Input.GetKeyDown ("q")){
-						Time.timeScale = 1;
-						State = "Action";
-						mainMenu.SetActive(false);
-						Debug.Log(State);
-					}
-					break;
-				case "ItemMenu":
-					if (Input.GetKeyDown ("q")){
-						State = "MainmMenu";
-						itemMenu.SetActive(false);
-						mainMenu.SetActive(true);
-						Debug.Log(State);
-					}
-					break;
-				case "Action":
-					if (Input.GetKeyDown ("q")){
-						Time.timeScale = 0;
-						State = "MainMenu";
-						mainMenu.SetActive(true);
-						Debug.Log(State);
-					}	
-					break;
-				default:
-					break;
-			}
 	}
 
 	void FixedUpdate ()
 	{
+	}
+
+	public void PlayerAction(){
 		//接地判定
 		isGrounded = Physics2D.Linecast (
 			transform.position + transform.up * 1,
@@ -99,18 +71,19 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetKeyDown ("x")){
 			toShot (direction);
 		}
-
+		/*
 		if (nextArea == true && Input.GetKeyDown ("z")) {
+			m_actSceneController.State = "NextFloor";
 			m_fade.FadeIn (1);
 			Invoke("NextFloor",1f);
 		}
-			
+		*/
 	}
-
+/* 
 	void NextFloor(){
 		Application.LoadLevel ("Floor2");
 	}
-
+*/
 	void toRun(float x){
 		m_rigidbody2D.velocity = new Vector2 (x * speed, m_rigidbody2D.velocity.y);
 		Vector2 temp = transform.localScale;
@@ -130,10 +103,10 @@ public class PlayerController : MonoBehaviour {
 		if (isGrounded) {
 			anim.SetTrigger("Jump");
 			isGrounded = false;
+			m_rigidbody2D.velocity = Vector2.zero; //連続ジャンプで超加速修正
 			m_rigidbody2D.AddForce (Vector2.up * jumpPower);
 		}
 	}
-
 
 	void toShot(float x){
 		anim.SetTrigger("Shot");
@@ -158,6 +131,16 @@ public class PlayerController : MonoBehaviour {
 			Destroy(col.gameObject);
 		}
 	}
+	void OnTriggerStay2D (Collider2D col)
+	{
+		if(col.gameObject.tag == "Warp" && Input.GetKeyDown ("z")){
+			m_actSceneController.Warp(gameObject,col.gameObject);
+		}
+		if(col.gameObject.tag == "NextArea" && Input.GetKeyDown ("z")){
+			m_actSceneController.Warp(gameObject,col.gameObject);
+		}
+	}
+	
 
 	void OnTriggerEnter2D (Collider2D col)
 	{

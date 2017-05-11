@@ -11,7 +11,7 @@ public class WarpController : MonoBehaviour {
 	private Collider2D playerCollider;
 	private GameObject warpPoint;
 	private int count = 0;
-			
+			/* 
 	void OnTriggerStay2D (Collider2D col){
 		count++;
 		if (Input.GetKeyDown(KeyCode.Z) && col.tag == "UnityChan" && count > 1) {
@@ -29,4 +29,5 @@ public class WarpController : MonoBehaviour {
 			m_fade.FadeOut (0.3f);
 		});
 	}
+	*/
 }

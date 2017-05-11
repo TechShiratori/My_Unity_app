@@ -32,13 +32,14 @@ public class MainMenuController : MonoBehaviour {
 		count = 0;
 		selectButtonName = "MainMenuButton_1";
 		selectButton = GameObject.Find(selectButtonName);
-		selectSceneName = "ItemMenu";
+		selectSceneName = "Item";
 		selectMenu = GameObject.Find(selectSceneName);
 		m_cursor.transform.localPosition = new Vector2(0,selectButton.transform.localPosition.y);
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		/* 
 		if(Input.GetKey(KeyCode.UpArrow) && count > 8){
 			if(keyPosition !=1){
 				keyPosition--;
@@ -76,6 +77,40 @@ public class MainMenuController : MonoBehaviour {
 		}
 		count++;
 		m_pointText.text = "SearchPoint:" + m_act.AllPoint.ToString();
+		*/
+	}
+	public void Open(){
+		m_pointText.text = "SearchPoint:" + m_act.AllPoint.ToString();
+
+		if(Input.GetKey(KeyCode.UpArrow) && count > 8){
+			if(keyPosition !=1){
+				keyPosition--;
+			}else{
+				keyPosition = 3;
+			}
+			SelectCursor(keyPosition);
+			selectSceneName = ex.ToString();
+		}
+		else if(Input.GetKey(KeyCode.DownArrow) && count > 8){
+			if(keyPosition !=3){
+				keyPosition++;
+			}else{
+				keyPosition = 1;
+			}
+			SelectCursor(keyPosition);
+			selectSceneName = ex.ToString();
+		}
+		else if(Input.GetKey(KeyCode.Z) && count > 8){
+			var playerMenuController = m_playerMenu.GetComponent<PlayerMenuController>();
+			playerMenuController.SelectMenu(selectSceneName);
+			count = 0;
+		}
+		else if(Input.GetKey(KeyCode.X) && count > 8){
+			var playerMenuController = m_playerMenu.GetComponent<PlayerMenuController>();
+			playerMenuController.SelectMenu("NotActive");
+		}
+		count++;
+
 	}
 	private void SelectCursor(int m_select){
 		count = 0;
