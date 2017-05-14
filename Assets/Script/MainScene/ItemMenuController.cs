@@ -137,8 +137,8 @@ public class ItemMenuController : MonoBehaviour {
 			playerMenu.SelectMenu(mainMenu);
 		}
 		
-		if(m_actSceneController.itemListName != null){
-			m_itemIconGroup.CreateItems(m_actSceneController.itemListName);
+		if(m_actSceneController.backPack != null){
+			m_itemIconGroup.CreateItems(m_actSceneController.backPack);
 		}
 		count++;
 	}

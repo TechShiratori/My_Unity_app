@@ -12,6 +12,7 @@ public class ActSceneContoller : MonoBehaviour {
 	public GameObject test; 
 	public List<GameObject> itemList = new List<GameObject>();
 	public List<string> itemListName  = new List<string>();
+	public List<Item> backPack;
 	[SerializeField] private PlayerMenuController m_playerMenuController;
 	[SerializeField] private PlayerUIController m_playerUIController;
 	[SerializeField] private PlayerController m_playerController;
@@ -23,7 +24,8 @@ public class ActSceneContoller : MonoBehaviour {
 	[SerializeField] private Fade m_fade;
 	[SerializeField] private GameObject m_player;
 	[SerializeField] private GameObject m_startPoint;
-
+	public ItemDataBase database;
+	private Item getItem;
 	public enum ActionState {
 		First = 1,
 		Action,
@@ -112,18 +114,26 @@ public class ActSceneContoller : MonoBehaviour {
 	}
 
 	public void GetITem(GameObject m_item){
-		//itemListName.Capacity = 10;
-		
-		if(itemListName.Count < 10){
-			itemListName.Add(null);
+		var itemName = m_item.name.Replace("(Clone)","");
+
+		while(backPack.Count < 10){
+			backPack.Add(database.items[0]);
 		}
-		GetItemLoop(m_item);
+
+		for(int n =0 ; n < database.items.Count; n++){
+			if(database.items[n].itemName == itemName){
+				getItem = database.items[n];
+			}
+		}
+		GetItemLoop(getItem);
 	}
-	private void GetItemLoop(GameObject m_item){
+
+	private void GetItemLoop(Item m_getItem){
+
 		for(int i = 0 ; i < 10; i++){
-			if(itemListName[i] == null){
-				itemListName[i] = m_item.name;
-				Debug.Log(itemListName.Count);
+			if(backPack[i].itemName == null){
+				backPack[i] = m_getItem;
+				Debug.Log(backPack.Count);
 				return;
 			}
 		}

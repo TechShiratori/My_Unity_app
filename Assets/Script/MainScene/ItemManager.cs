@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemManager : MonoBehaviour {
-
+	
 	public enum itemType{
 		RecoverItem = 1,
 		EventItem,
@@ -20,4 +20,10 @@ public class ItemManager : MonoBehaviour {
 	public string m_itemExplain;
 	private UIController lifeScript;
 	public int Point;
+
+	public void ItemEffect(){
+		if(m_itemType == itemType.RecoverItem){
+
+		}
+	}
 }
