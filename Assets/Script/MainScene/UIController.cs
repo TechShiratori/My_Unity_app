@@ -9,6 +9,7 @@ public class UIController : MonoBehaviour {
 	[SerializeField] private GameObject m_infectionBar;
 	[SerializeField] private GameObject m_startPoint;
 	[SerializeField] private Fade m_fade;
+	[SerializeField] private ActSceneContoller m_actSceneController;
 	Image hpImage;
 	Image inImage;
 
@@ -32,7 +33,6 @@ public class UIController : MonoBehaviour {
 		if (hpImage.fillAmount >= 1) {
 			hpImage.fillAmount = 1;
 		}
-
 	}
 
 	public void InfectionDown (float infection){

@@ -9,7 +9,6 @@ public class ActSceneContoller : MonoBehaviour {
     public int numberOfLose = 0;
 	public int AllPoint = 0;
 	public string State = "Start";
-	public GameObject test; 
 	public List<GameObject> itemList = new List<GameObject>();
 	public List<string> itemListName  = new List<string>();
 	public List<Item> backPack;
@@ -19,12 +18,12 @@ public class ActSceneContoller : MonoBehaviour {
 	[SerializeField] private EnemyController m_enemyController;
 	[SerializeField] private SceneController m_sceneController;
 	[SerializeField] private WarpController m_warpController;
-	[SerializeField] private UIController m_uiController;
 	[SerializeField] private ActSceneScript m_actSceneScript;
 	[SerializeField] private Fade m_fade;
 	[SerializeField] private GameObject m_player;
 	[SerializeField] private GameObject m_startPoint;
-	public ItemDataBase database;
+	//[SerializeField] private GameDatabase m_allDataBase;
+	[SerializeField] private GameDataBase dataBase;
 	private Item getItem;
 	public enum ActionState {
 		First = 1,
@@ -34,15 +33,24 @@ public class ActSceneContoller : MonoBehaviour {
 		Warp,
 		Other
 	}
+	public enum ChangeState{
+		Nothing = 1,
+		Damage,
+		Recover,
+		PowerUP,
+		PowerDown,
+		BadStatus
+	}
 
 	//[SerializeField] private MainMenuController m_mainMenu;
 
-	public ActionState m_State; 
+	//public ActionState m_State; 
 	// Use this for initialization
 	void Start () {
 		//m_sceneController.FirstFade();
 		//StartCoroutine("WaitTime");
 		//m_sceneController.OnFadeOut(0.5f);
+		//dataBase = new ItemDataBase();
 		State = "Action";
 		float dx = Time.deltaTime * 1f;
 	}
@@ -91,9 +99,7 @@ public class ActSceneContoller : MonoBehaviour {
 			}
 
 	}
-	void FixedUpdate () {
-		
-	}
+
 	private void FirstAction () {
 		//イベントフラグのif判定してあればEventControllerあたりで処理？その後Actionへ
 		State = "Action";
@@ -113,34 +119,62 @@ public class ActSceneContoller : MonoBehaviour {
 
 	}
 
-	public void GetITem(GameObject m_item){
-		var itemName = m_item.name.Replace("(Clone)","");
+	public void GetITem(GameObject item){
+		var itemName = item.name.Replace("(Clone)","");
 
 		while(backPack.Count < 10){
-			backPack.Add(database.items[0]);
+			backPack.Add(dataBase.itemDatabase.items[0]);
 		}
 
-		for(int n =0 ; n < database.items.Count; n++){
-			if(database.items[n].itemName == itemName){
-				getItem = database.items[n];
+		for(int n =0 ; n < dataBase.itemDatabase.items.Count; n++){
+			if(dataBase.itemDatabase.items[n].itemName == itemName){
+				getItem = dataBase.itemDatabase.items[n];
 			}
 		}
 		GetItemLoop(getItem);
 	}
 
-	private void GetItemLoop(Item m_getItem){
+	private void GetItemLoop(Item getItem){
 
 		for(int i = 0 ; i < 10; i++){
-			if(backPack[i].itemName == null){
-				backPack[i] = m_getItem;
+			if(backPack[i] == null){
+				backPack[i] = getItem;
+				Debug.Log(backPack.Count);
+				return;
+			}else if (backPack[i].itemID == 0){
+				backPack[i] = getItem;
 				Debug.Log(backPack.Count);
 				return;
 			}
 		}
 		Debug.Log("所持アイテムがいっぱいです");
 	}
+
+
+	public void ActiveEffect(Effect effect){
+		SelectEffect(effect.effectType_1,effect.effectPower_1);
+		SelectEffect(effect.effectType_2,effect.effectPower_2);
+	}
+
+	public void SelectEffect(Effect.EffectType effectType,int effectPower){
+
+		switch (effectType)
+		{
+        case Effect.EffectType.ChangeLife:
+		
+            m_actSceneScript.ChangeLife(effectPower);
+            break;
+		
+		case Effect.EffectType.ChangeInfection:
+            m_actSceneScript.ChangeInfection(effectPower);
+            break;
+		}
+	}
+
 	public IEnumerator WaitToAction(float waitTime,Action action){
         yield return new WaitForSeconds(waitTime);
 		action();
     }
+
+
 }
