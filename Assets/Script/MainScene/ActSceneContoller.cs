@@ -5,24 +5,15 @@ using UnityEngine.SceneManagement;
 using System;
 /* あくまでこいつはステート（現在状況）の管理と分配なのでアイテムをゲットした時の処理は ActSceneScript に書くこと */
 public class ActSceneContoller : MonoBehaviour {
-    public int numberOfWin = 0;
-    public int numberOfLose = 0;
 	public int AllPoint = 0;
 	public string State = "Start";
-	public List<GameObject> itemList = new List<GameObject>();
-	public List<string> itemListName  = new List<string>();
 	public List<Item> backPack;
 	[SerializeField] private PlayerMenuController m_playerMenuController;
 	[SerializeField] private PlayerUIController m_playerUIController;
 	[SerializeField] private PlayerController m_playerController;
-	[SerializeField] private EnemyController m_enemyController;
-	[SerializeField] private SceneController m_sceneController;
-	[SerializeField] private WarpController m_warpController;
 	[SerializeField] private ActSceneScript m_actSceneScript;
 	[SerializeField] private Fade m_fade;
 	[SerializeField] private GameObject m_player;
-	[SerializeField] private GameObject m_startPoint;
-	//[SerializeField] private GameDatabase m_allDataBase;
 	[SerializeField] private GameDataBase dataBase;
 	private Item getItem;
 	public enum ActionState {
@@ -41,18 +32,9 @@ public class ActSceneContoller : MonoBehaviour {
 		PowerDown,
 		BadStatus
 	}
-
-	//[SerializeField] private MainMenuController m_mainMenu;
-
-	//public ActionState m_State; 
-	// Use this for initialization
 	void Start () {
-		//m_sceneController.FirstFade();
-		//StartCoroutine("WaitTime");
-		//m_sceneController.OnFadeOut(0.5f);
-		//dataBase = new ItemDataBase();
 		State = "Action";
-		float dx = Time.deltaTime * 1f;
+		float dx = Time.deltaTime * 1f; //いらない？
 	}
 	
 	// Update is called once per frame
@@ -64,7 +46,6 @@ public class ActSceneContoller : MonoBehaviour {
 				break;
 			case "Action":	//通常アクションプレイ時。プレイヤー、エネミー、ギミックがアクション
 				m_playerController.PlayerAction(); // プレイヤーアクション
-				//m_playerMenuController.CloseMenu();
 				Time.timeScale = 1;
 				if (Input.GetKeyDown ("q")){
 					State = "Menu";
@@ -77,29 +58,22 @@ public class ActSceneContoller : MonoBehaviour {
 				Time.timeScale = 0;
 				m_playerMenuController.ActiveMenu();
 				break;
-			case "NextFloor": //フロア移動用。場所はwarpControllerに飛ばして、そこで処理？
-					//m_sceneController.OnFadeIn(0.3f);
+			case "NextFloor": //フロア（シーン）移動用。
 					StartCoroutine("WaitTime");
 					SceneManager.LoadScene("Floor2");
 				break;
 			case "Warp": 
-			//ワープ処理中。この間、敵味方も動かず不具合が起きないようにする。フェードが終わったあたりでFirstに移行？
-			//とりあえず現状は何も書かない
 				break;
-			case "GameOver": //ゲームオーバー用
-					//m_sceneController.OnFadeIn(0.3f);
-					StartCoroutine("WaitTime");
-					SceneManager.LoadScene("GameOver");
+			case "GameOver":
+					m_actSceneScript.GameOver();
 				break;
 			case "Restart":
-					m_playerUIController.Restart(m_player);
+					m_actSceneScript.Restart(m_player);
 				break;
 			default:
 				break;
 			}
-
 	}
-
 	private void FirstAction () {
 		//イベントフラグのif判定してあればEventControllerあたりで処理？その後Actionへ
 		State = "Action";
@@ -150,6 +124,10 @@ public class ActSceneContoller : MonoBehaviour {
 		Debug.Log("所持アイテムがいっぱいです");
 	}
 
+	public void DamageEffect(int effectPower){
+		m_playerUIController.ChangeLife(effectPower * -1);
+		m_playerUIController.ChangeInfection(effectPower * 0.1f);
+	}
 
 	public void ActiveEffect(Effect effect){
 		SelectEffect(effect.effectType_1,effect.effectPower_1);
@@ -162,11 +140,11 @@ public class ActSceneContoller : MonoBehaviour {
 		{
         case Effect.EffectType.ChangeLife:
 		
-            m_actSceneScript.ChangeLife(effectPower);
+            m_playerUIController.ChangeLife(effectPower);
             break;
 		
 		case Effect.EffectType.ChangeInfection:
-            m_actSceneScript.ChangeInfection(effectPower);
+            m_playerUIController.ChangeInfection(effectPower);
             break;
 		}
 	}

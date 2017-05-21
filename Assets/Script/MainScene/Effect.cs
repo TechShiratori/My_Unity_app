@@ -16,8 +16,8 @@ public class Effect
     public enum EffectType
     {
         Nothing,
-        AttackDamage,       //ダメージを与える（攻撃専用）
-		ChangeLife,         //HPの増減
+        AttackDamage,       //敵にダメージを与える（攻撃専用）
+		ChangeLife,         //プレイヤーのHPの増減
 		ChangeInfection,    //感染率の増減
 		ChangeAttack,		//攻撃力変化
 		ChangeDeffence,		//防御力変化
