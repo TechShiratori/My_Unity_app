@@ -8,21 +8,21 @@ public ItemDataBase itemDatabase;
 public EffectDataBase effectDatabase;
 public PlayerDataBase playerDatabase;
 public EnemyDataBase enemyDatabase;
+public SkillDataBase skillDatabase;
 
 	void Start () {
-		//playerDatabase.SetInitialize();
-		effectDatabase.SetDataBase();
-		itemDatabase.SetDataBase(effectDatabase);
+		effectDatabase.SetInitialize();
+		itemDatabase.SetInitialize(effectDatabase);
 		enemyDatabase.SetInitialize(itemDatabase);
 		playerDatabase.SetInitialize();
+		skillDatabase.SetInitialize();
 	}
 
 	public void SetDataBase () {
-		//playerDatabase.SetInitialize();
-		effectDatabase.SetDataBase();
-		itemDatabase.SetDataBase(effectDatabase);
+		effectDatabase.SetInitialize();
+		itemDatabase.SetInitialize(effectDatabase);
 		enemyDatabase.SetInitialize(itemDatabase);
-		Debug.Log(enemyDatabase.enemy.Count);
 		playerDatabase.SetInitialize();
+		skillDatabase.SetInitialize();
 	}
 }

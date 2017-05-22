@@ -19,6 +19,7 @@ public class ActSceneContoller : MonoBehaviour {
 	public enum ActionState {
 		First = 1,
 		Action,
+		Wait,
 		Event,
 		Menu,
 		Warp,
@@ -52,6 +53,8 @@ public class ActSceneContoller : MonoBehaviour {
 					m_playerMenuController.FirstOpen();
 				}
 				break;
+			case "Wait":	//プレイヤーだけが動けない状態
+				break;
 			case "Event":	//イベント中
 				break;
 			case "Menu":
@@ -68,7 +71,7 @@ public class ActSceneContoller : MonoBehaviour {
 					m_actSceneScript.GameOver();
 				break;
 			case "Restart":
-					m_actSceneScript.Restart(m_player);
+					m_actSceneScript.Restart(m_fade,m_player);
 				break;
 			default:
 				break;
@@ -85,8 +88,22 @@ public class ActSceneContoller : MonoBehaviour {
 		}
 	}
 
+	public void toWarp(){
+		
+	}
+
 	public void toAction(){
 		State = ActionState.Action.ToString();
+	}
+	public void toWait(){
+		State = ActionState.Wait.ToString();
+	}
+	public void toRestart(){
+		m_playerUIController.ChangeLife(100);
+		StartCoroutine(WaitToAction(0.5f, () =>
+        {
+            toAction();
+        }));
 	}
 
 	public void OpenMenu(){

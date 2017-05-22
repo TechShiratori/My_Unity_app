@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyScript : MonoBehaviour
 {
     private EnemyController m_enemyController;
-    [SerializeField] private GameDataBase m_gameDataBase;
+    private GameDataBase m_gameDataBase;
     private Enemy m_enemy;
     private int m_hp; //敵各個体のHP
     private GameObject m_dropItemObj;
@@ -22,15 +22,19 @@ public class EnemyScript : MonoBehaviour
     void Start()
     {
 		m_player = GameObject.FindWithTag("UnityChan");
-        m_enemyController = transform.parent.gameObject.transform.GetComponent<EnemyController>();
 		m_rigidbody2D = GetComponent<Rigidbody2D>();
-        Debug.Log(m_gameDataBase.enemyDatabase.enemy.Count);
-        m_gameDataBase.SetDataBase();
+        m_enemyController = GameObject.Find("EnemyController").transform.GetComponent<EnemyController>();
+        m_gameDataBase = GameObject.Find("GameDataBase").transform.GetComponent<GameDataBase>();
+        //m_gameDataBase.SetDataBase();
         setEnemyStatus();
     }
 
 	void FixedUpdate()
     {
+        if(m_enemy == null){
+            setEnemyStatus();
+        }
+
         if (_isRendered)
         {
 
@@ -47,6 +51,7 @@ public class EnemyScript : MonoBehaviour
     }
 	void toMove(float x)
     {
+        
         m_rigidbody2D.velocity = new Vector2(m_enemy.enemySpeed * x, m_rigidbody2D.velocity.y);
 
         Vector2 temp = transform.localScale;
@@ -56,12 +61,13 @@ public class EnemyScript : MonoBehaviour
 
     public void setEnemyStatus()
     {
-        foreach (var enemyData in m_gameDataBase.enemyDatabase.enemy)
+        foreach (var enemyData in m_gameDataBase.enemyDatabase.enemys)
         {
             var i = 0;
-            if (enemyData.enemyName == gameObject.name)
+            var selectEnemyName = gameObject.name.Replace("(Clone)","");
+            if (enemyData.enemyName == selectEnemyName)
             {
-                m_enemy = m_gameDataBase.enemyDatabase.enemy[i];
+                m_enemy = m_gameDataBase.enemyDatabase.enemys[i];
                 m_hp = m_enemy.enemyLife;
                 var itemName = "Prefab/" + m_enemy.enemyItem.itemName.ToString();
 				var expName = "Prefab/ExpPoint";

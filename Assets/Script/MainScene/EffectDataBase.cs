@@ -7,8 +7,9 @@ public class EffectDataBase : MonoBehaviour
 	
 //リスト化をして下のvoid Start内でリストに値を追加
 public List<Effect> effects = new List<Effect>();
-	public void SetDataBase()
+	public void SetInitialize()
     {   
+		effects.Clear();
         effects.Add(new Effect(null,0,null,Effect.EffectType.Nothing,Effect.EffectType.Nothing,0,0));//空用のダミーオブジェクト
         effects.Add(new Effect("EnemyDamage",1,"敵の攻撃によるダメージ",Effect.EffectType.ChangeLife,Effect.EffectType.Nothing,30,0));
 		effects.Add(new Effect("RecoverHP30",2,"アイテムによるHP回復。30%",Effect.EffectType.ChangeLife,Effect.EffectType.Nothing,30,0));

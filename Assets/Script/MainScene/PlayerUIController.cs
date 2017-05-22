@@ -14,7 +14,7 @@ public class PlayerUIController : MonoBehaviour {
 	{
 		m_hpImage = m_hPBar.GetComponent<Image> ();
 		m_inImage = m_infectionBar.GetComponent<Image> ();
-		m_actSceneController = transform.parent.gameObject.GetComponent<ActSceneContoller>();
+		m_actSceneController = GameObject.Find("ActScene").transform.GetComponent<ActSceneContoller>();
 	}
 
 	public void ChangeLife (float effectPower){

@@ -36,7 +36,6 @@ public class ItemMenuController : MonoBehaviour {
 					keyPosition --;
 					break;
 			}
-			Debug.Log(keyPosition);
 			SelectCursor(keyPosition);
 		}
 		else if(Input.GetKey(KeyCode.RightArrow) && count > 8){
@@ -51,7 +50,6 @@ public class ItemMenuController : MonoBehaviour {
 					keyPosition++;
 					break;
 			}
-			Debug.Log(keyPosition);
 			SelectCursor(keyPosition);
 		}
 		else if((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow)) && count > 8){
@@ -79,6 +77,7 @@ public class ItemMenuController : MonoBehaviour {
 	}
 	private void SelectCursor(int m_select){
 		count = 0;
+		Debug.Log(m_select);
 		m_itemIconGroup.SetCursor(m_select);
 	}
 
