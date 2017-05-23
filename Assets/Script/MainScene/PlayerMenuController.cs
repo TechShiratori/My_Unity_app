@@ -45,8 +45,6 @@ public class PlayerMenuController : MonoBehaviour {
 
 	public void SelectMenu(string selectMenu){
 		menuState = (MenuState)Enum.Parse(typeof(MenuState), selectMenu);
-		Debug.Log(menuState);
-		Debug.Log(selectMenu);
 	}
 
 	public void openMainMenu(){

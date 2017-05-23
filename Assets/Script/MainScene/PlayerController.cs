@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour {
 
 	[SerializeField] private float speed = 4f;
 	[SerializeField] private float jumpPower = 700;
+	private float dashPower = 600;
 	[SerializeField] private LayerMask groundLayer;
 	[SerializeField] private GameObject mainCamera;
 	[SerializeField] private GameObject bullet;
@@ -14,11 +15,12 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] private UIController lifeScript;
 	[SerializeField] private ActSceneContoller m_actSceneController;
 	private Renderer m_renderer;
-
+	private GameDataBase m_gameDataBase;
 	private Rigidbody2D m_rigidbody2D;
 	private Animator anim;
 	private bool isGrounded;
 	private bool nextArea;
+	private int coolTime = 0;
 
 	private float direction = 1;
 	//static string State = "";
@@ -29,6 +31,7 @@ public class PlayerController : MonoBehaviour {
 		anim = GetComponent<Animator>();
 		m_rigidbody2D = GetComponent<Rigidbody2D>();
 		m_renderer = GetComponent<Renderer>();
+		m_gameDataBase = GameObject.Find("GameDataBase").transform.GetComponent<GameDataBase>();
 	}
 
 	void Update(){
@@ -51,6 +54,7 @@ public class PlayerController : MonoBehaviour {
 		bool isFalling = velY < -0.1f ? true:false;
 		anim.SetBool("isJumping",isJumping);
 		anim.SetBool("isFalling",isFalling);
+		coolTime = Mathf.Clamp(coolTime + 1, 0, 25);
 
 		//移動判定
 		float x = Input.GetAxisRaw ("Horizontal");
@@ -70,6 +74,12 @@ public class PlayerController : MonoBehaviour {
 		//Xキーを押した時:ショット
 		if (Input.GetKeyDown ("x")){
 			toShot (direction);
+		}
+
+		//スキルをとった上でCキー：ダッシュ
+		if (Input.GetKeyDown ("c") && coolTime == 25){
+			toDash (direction);
+			coolTime = 0;
 		}
 		/*
 		if (nextArea == true && Input.GetKeyDown ("z")) {
@@ -113,6 +123,12 @@ public class PlayerController : MonoBehaviour {
 		Instantiate(bullet, transform.position + new Vector3(x,1.2f,0f), transform.rotation);
 	}
 
+	void toDash(float x){
+		if(m_gameDataBase.skillDatabase.mySkills.Exists(checkSkill => checkSkill.skillID == 5)){
+			anim.SetTrigger("Shot");
+			StartCoroutine("Dash",x);
+		}
+	}
 
 	void OnCollisionEnter2D (Collision2D col)
 	{
@@ -153,6 +169,13 @@ public class PlayerController : MonoBehaviour {
 			nextArea = false;
 		}
 	}
+
+	private IEnumerator Dash(float x){
+		for(int i = 0; i < 10 ; i++){
+			m_rigidbody2D.AddForce(Vector2.right * dashPower * x);
+			yield return null;
+		}
+    }
 
 	IEnumerator Damage ()
 	{

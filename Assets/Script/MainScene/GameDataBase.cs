@@ -25,4 +25,9 @@ public SkillDataBase skillDatabase;
 		playerDatabase.SetInitialize();
 		skillDatabase.SetInitialize();
 	}
+
+	public void getSkillData(Skill skill){
+		skillDatabase.GetSkill(skill);
+	}
+	
 }

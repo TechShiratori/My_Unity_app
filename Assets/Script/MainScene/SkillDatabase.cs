@@ -5,6 +5,7 @@ using UnityEngine;
 public class SkillDataBase : MonoBehaviour {
 
     public List<Skill> skills = new List<Skill>();
+	public List<Skill> mySkills = new List<Skill>();
     public void SetInitialize()    
     {   
 		skills.Clear();
@@ -21,4 +22,8 @@ public class SkillDataBase : MonoBehaviour {
 		skills.Add(new Skill("耐久試験", 10, "自分が受けたダメージ分x10のリサーチポイントを得ることができる。", 0 ,0 ,30000,Skill.SkillType.InfectionStop));
 		skills.Add(new Skill("研究力 Lv1", 11, "研究効率を上げることで、リサーチポイントがより溜まりやすくなる", 0 ,0 ,30000, Skill.SkillType.InfectionStop));
     }
+
+	public void GetSkill(Skill skill){
+		mySkills.Add(skill);
+	}
 }

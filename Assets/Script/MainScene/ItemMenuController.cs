@@ -6,11 +6,6 @@ using UnityEngine.UI;
 public class ItemMenuController : MonoBehaviour {
 	private int keyPosition;
 	private int count;
-	private string selectButtonName;
-	private string itemPositionName;
-	private GameObject selectButton;
-	[SerializeField] private GameObject itemPrefab;
-	[SerializeField] private GameObject m_cursor;
 	[SerializeField] private GameObject m_playerMenuController;
 	[SerializeField] private ItemIconGroup m_itemIconGroup;
 
