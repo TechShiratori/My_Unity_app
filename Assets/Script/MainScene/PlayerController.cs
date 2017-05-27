@@ -150,10 +150,10 @@ public class PlayerController : MonoBehaviour {
 	void OnTriggerStay2D (Collider2D col)
 	{
 		if(col.gameObject.tag == "Warp" && Input.GetKeyDown ("z")){
-			m_actSceneController.Warp(gameObject,col.gameObject);
+			m_actSceneController.toWarp(gameObject,col.gameObject);
 		}
 		if(col.gameObject.tag == "NextArea" && Input.GetKeyDown ("z")){
-			m_actSceneController.Warp(gameObject,col.gameObject);
+			m_actSceneController.toNextArea(gameObject,col.gameObject);
 		}
 	}
 	

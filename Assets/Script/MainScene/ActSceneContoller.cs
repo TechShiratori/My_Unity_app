@@ -81,15 +81,17 @@ public class ActSceneContoller : MonoBehaviour {
 		//イベントフラグのif判定してあればEventControllerあたりで処理？その後Actionへ
 		State = "Action";
 	}
-	public void Warp (GameObject player,GameObject warpPoint) {
+	public void toWarp (GameObject player,GameObject warpPoint) {
 		if(State == "Action"){
 			State = ActionState.Warp.ToString();
 			m_actSceneScript.WarpOther(m_fade,player,warpPoint);
 		}
 	}
-
-	public void toWarp(){
-		
+	public void toNextArea (GameObject player,GameObject warpPoint) {
+		if(State == "Action"){
+			State = ActionState.Warp.ToString();
+			m_actSceneScript.NextArea(m_fade,player);
+		}
 	}
 
 	public void toAction(){

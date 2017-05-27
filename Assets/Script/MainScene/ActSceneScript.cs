@@ -41,6 +41,11 @@ public class ActSceneScript : MonoBehaviour
             m_actSceneController.toAction();
         }));
     }
+
+    public void NextArea(Fade fade, GameObject player){
+        SceneManager.LoadScene("Floor2");
+    }
+
     public void Restart(Fade fade, GameObject player)
     {
 		
