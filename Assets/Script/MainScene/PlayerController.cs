@@ -81,6 +81,10 @@ public class PlayerController : MonoBehaviour {
 			toDash (direction);
 			coolTime = 0;
 		}
+		
+		if (Input.GetKeyDown ("s")){
+			m_gameDataBase.Save();
+		}
 		/*
 		if (nextArea == true && Input.GetKeyDown ("z")) {
 			m_actSceneController.State = "NextFloor";
