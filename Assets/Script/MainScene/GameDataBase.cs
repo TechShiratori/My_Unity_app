@@ -44,37 +44,22 @@ public int score = 0;
 	}
 
 	public void Save(){
-		/* 
-		List<string> strs = new List<string>();
-		List<int> itemListID = new List<int>();
-		strs.Add("abc");
-		strs.Add("def");
-		itemListID.Add(1);
-		itemListID.Add(112);
-		ES2.Save(strs, "stringList");
-		ES2.Save(itemListID,"saveList");
-		
-		Test aaa = new Test("aad",3,"bbw",3.0f,5);
-		ES2.Save(aaa,"SaveList3");
-		*/
-		Test test = new Test("かかかかk");
-		test.Hp = 130;
-		Skill testSkill = new Skill("aaa");
-		testSkill.needExp = 100;
-		string saveJson = LitJson.JsonMapper.ToJson(test);
-		string saveJson2 = LitJson.JsonMapper.ToJson(testSkill);
-		string saveJson3 = LitJson.JsonMapper.ToJson(skillDatabase.mySkills);
-		saveJson3 = System.Text.RegularExpressions.Regex.Unescape(saveJson3);
-		Debug.Log(saveJson3);
-		ES2.Save(saveJson3, "player?tag=json");
+		string saveJson = LitJson.JsonMapper.ToJson(skillDatabase.mySkills);
+		saveJson = System.Text.RegularExpressions.Regex.Unescape(saveJson);
+		Debug.Log(saveJson);
+		ES2.Save(saveJson, "player?tag=json");		
+	}
 
-		/* 
-		foreach(var mySkill in skillDatabase.mySkills){
-			//ES2.Save(aaa,"SaveList3");
+	public void Load(){
+		skillDatabase.ClearMySkill();
+		string loadJson = ES2.Load<string>("player?tag=json");
+		Debug.Log(loadJson);
+		//Skill loadskill = new Skill();
+		var skills = LitJson.JsonMapper.ToObject<Skill[]>(loadJson);
+		foreach(var skill in skills){
+			Debug.Log(skill.skillName);
+			skillDatabase.GetSkill(skill);
 		}
-		*/
-
-		
 	}
 	
 }

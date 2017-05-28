@@ -38,8 +38,8 @@ public class Skill
         needExp = exp;
         skillType = type;
     }
-    public Skill(string name)
+    public Skill()
     {
-        skillName = name;
+        
     }
 }

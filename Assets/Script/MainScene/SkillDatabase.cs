@@ -26,4 +26,7 @@ public class SkillDataBase : MonoBehaviour {
 	public void GetSkill(Skill skill){
 		mySkills.Add(skill);
 	}
+	public void ClearMySkill(){
+		mySkills.Clear();
+	}
 }

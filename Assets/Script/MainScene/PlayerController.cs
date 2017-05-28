@@ -81,9 +81,12 @@ public class PlayerController : MonoBehaviour {
 			toDash (direction);
 			coolTime = 0;
 		}
-		
+
 		if (Input.GetKeyDown ("s")){
 			m_gameDataBase.Save();
+		}
+		if (Input.GetKeyDown ("l")){
+			m_gameDataBase.Load();
 		}
 		/*
 		if (nextArea == true && Input.GetKeyDown ("z")) {
