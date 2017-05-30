@@ -8,7 +8,7 @@ public class Item
     public string itemName;        //名前
     public int itemID;             //アイテムID
     public string itemDesc;        //アイテムの説明文
-    public Texture2D itemIcon;     //アイコン
+    //public Texture2D itemIcon;     //アイコン
     //public ItemEffect itemEffect_1;   //アイテムの効果_1
     //public ItemEffect itemEffect_2;   //アイテムの効果_2
     public int itemPower;          //効果の値。攻撃力、アイテム回復量、アイテム持続時間、経験値など
@@ -43,17 +43,20 @@ public class Item
 		Empty,
     }
 //ここでリスト化時に渡す引数をあてがいます   
-public Item(string name, int id, string desc,Effect effect, int power, int speed, ItemType type)
+    public Item(string name, int id, string desc,Effect effect, int power, int speed, ItemType type)
     {
         itemName = name;
         itemID = id;
 //アイコンはnameとイコールにするのでアイコンがあるパス＋nameで取ってきます    
-        itemIcon = Resources.Load<Texture2D>("Textures/" + name);
+        //itemIcon = Resources.Load<Texture2D>("Textures/" + name);
         itemDesc = desc;
         itemEffect = effect;
         itemPower = power;
         itemAttackSpeed = speed;
         itemType = type;
+    }
+    public Item(){
+
     }
 
 }

@@ -39,4 +39,8 @@ public Effect(string name, int id, string desc, EffectType effect_1, EffectType 
 		effectPower_2 = power_2;	
     }
 
+    public Effect(){
+        
+    }
+
 }

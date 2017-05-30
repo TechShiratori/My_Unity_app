@@ -65,8 +65,8 @@ public class ItemMenuController : MonoBehaviour {
 			playerMenu.SelectMenu(mainMenu);
 		}
 		
-		if(m_actSceneController.backPack != null){
-			m_itemIconGroup.CreateItems(m_actSceneController.backPack);
+		if(m_actSceneController.player.playerItems != null){
+			m_itemIconGroup.CreateItems(m_actSceneController.player.playerItems);
 		}
 		count++;
 	}

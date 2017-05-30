@@ -9,12 +9,14 @@ public class SkillMenuController : MonoBehaviour
 	[SerializeField] SkillContent m_skillContent;
 	[SerializeField] RectTransform m_skillRect;
 	private GameDataBase m_gameDataBase;
+	private ActSceneContoller m_actSceneController;
     private int count = 0;
 	private int m_index = 0;
 	private int m_skillAllCount;
 	void Start(){
 		m_index = 3;
 		m_gameDataBase = GameObject.Find("GameDataBase").transform.GetComponent<GameDataBase>();
+		m_actSceneController = GameObject.Find("ActScene").transform.GetComponent<ActSceneContoller>();
 		m_skillAllCount = m_gameDataBase.skillDatabase.skills.Count;
 		Debug.Log(m_skillAllCount);
 	}
@@ -55,14 +57,15 @@ public class SkillMenuController : MonoBehaviour
         {
             count = 0;
 			var checkSkill = m_gameDataBase.skillDatabase.skills[m_index];
-            var check = m_gameDataBase.skillDatabase.mySkills.Find(x => x.skillID == checkSkill.skillID);
+            var check = m_actSceneController.player.playerSkill.Find(x => x.skillID == checkSkill.skillID);
             Debug.Log(check);
             if (check == null)
             {
                 Debug.Log(checkSkill.skillName);
-                m_gameDataBase.getSkillData(checkSkill);
+                //m_gameDataBase.getSkillData(checkSkill);
+				m_actSceneController.GetSkill(checkSkill);
             }
-			Debug.Log(m_gameDataBase.skillDatabase.mySkills.Count);
+			Debug.Log("スキル数" + m_actSceneController.player.playerSkill.Count);
         }
         count++;	
     }

@@ -6,6 +6,7 @@ public class EnemyScript : MonoBehaviour
 {
     private EnemyController m_enemyController;
     private GameDataBase m_gameDataBase;
+    private ActSceneContoller m_actSceneController;
     private Enemy m_enemy;
     private int m_hp; //敵各個体のHP
     private GameObject m_dropItemObj;
@@ -25,6 +26,7 @@ public class EnemyScript : MonoBehaviour
 		m_rigidbody2D = GetComponent<Rigidbody2D>();
         m_enemyController = GameObject.Find("EnemyController").transform.GetComponent<EnemyController>();
         m_gameDataBase = GameObject.Find("GameDataBase").transform.GetComponent<GameDataBase>();
+        m_actSceneController = GameObject.Find("ActScene").transform.GetComponent<ActSceneContoller>();
         //m_gameDataBase.SetDataBase();
         setEnemyStatus();
     }
@@ -91,7 +93,7 @@ public class EnemyScript : MonoBehaviour
     {
         if (_isRendered && col.tag == "Bullet")
         {
-            int playerATK = m_gameDataBase.playerDatabase.player[0].playerPower;
+            int playerATK = m_actSceneController.player.playerPower;
             m_hp -= playerATK;
             if (m_hp <= 0)
             {

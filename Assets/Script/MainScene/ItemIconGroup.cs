@@ -18,7 +18,8 @@ public class ItemIconGroup : MonoBehaviour {
 				m_itemGroupName = "ItemIcon_" + (i+1).ToString();
 				m_itemGroup = transform.FindChild(m_itemGroupName).gameObject;
 				m_img = m_itemGroup.transform.FindChild("Image").gameObject.GetComponent<RawImage>();
-				m_img.texture = backPack[i].itemIcon;
+				//var itemIcon = Resources.Load<Texture2D>("Textures/" + backPack[i].itemName);
+				m_img.texture = Resources.Load<Texture2D>("Textures/" + backPack[i].itemName);//backPack[i].itemIcon;
 			}else{
 				m_itemGroupName = "ItemIcon_" + (i+1).ToString();
 				m_itemGroup = transform.FindChild(m_itemGroupName).gameObject;

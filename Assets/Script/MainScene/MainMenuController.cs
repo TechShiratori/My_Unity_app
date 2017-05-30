@@ -80,7 +80,7 @@ public class MainMenuController : MonoBehaviour {
 		*/
 	}
 	public void Open(){
-		m_pointText.text = "SearchPoint:" + m_act.AllPoint.ToString();
+		m_pointText.text = "SearchPoint:" + m_act.player.playerExp.ToString();
 
 		if(Input.GetKey(KeyCode.UpArrow) && count > 8){
 			if(keyPosition !=1){

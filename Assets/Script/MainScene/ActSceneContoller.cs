@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 using System;
 /* あくまでこいつはステート（現在状況）の管理と分配なのでアイテムをゲットした時の処理は ActSceneScript に書くこと */
 public class ActSceneContoller : MonoBehaviour {
-	public int AllPoint = 0;
 	public string State = "Start";
-	public List<Item> backPack;
+	//public List<Item> backPack;
+	public Player player;
 	[SerializeField] private PlayerMenuController m_playerMenuController;
 	[SerializeField] private PlayerUIController m_playerUIController;
 	[SerializeField] private PlayerController m_playerController;
@@ -15,7 +15,6 @@ public class ActSceneContoller : MonoBehaviour {
 	[SerializeField] private Fade m_fade;
 	[SerializeField] private GameObject m_player;
 	[SerializeField] private GameDataBase dataBase;
-	private Item getItem;
 	public enum ActionState {
 		First = 1,
 		Action,
@@ -34,7 +33,7 @@ public class ActSceneContoller : MonoBehaviour {
 		BadStatus
 	}
 	void Start () {
-		State = "Action";
+		State = "First";
 		float dx = Time.deltaTime * 1f; //いらない？
 	}
 	
@@ -42,7 +41,7 @@ public class ActSceneContoller : MonoBehaviour {
 	void Update () {
 
 		switch(State){
-			case "First":  //プレイヤーフロア入場時演出などでアクション前に行う処理。特になければそのままActionで
+			case "First":  //プレイヤーの初期状態設定などプレイヤーフロア入場時演出などでアクション前に行う処理。
 				FirstAction();
 				break;
 			case "Action":	//通常アクションプレイ時。プレイヤー、エネミー、ギミックがアクション
@@ -79,6 +78,9 @@ public class ActSceneContoller : MonoBehaviour {
 	}
 	private void FirstAction () {
 		//イベントフラグのif判定してあればEventControllerあたりで処理？その後Actionへ
+		//プレイヤーの状態設定（セーブロードじゃなければ、初期設定のを読み込む）
+		player = dataBase.currentPlayer;
+		//Debug.Log(player.playerName);
 		State = "Action";
 	}
 	public void toWarp (GameObject player,GameObject warpPoint) {
@@ -108,35 +110,44 @@ public class ActSceneContoller : MonoBehaviour {
         }));
 	}
 
-	public void OpenMenu(){
+	public void SavePlayer(){
+		dataBase.Save(player);
+	}
+	public void LoadPlayer(){
+		player = dataBase.Load();
+	}
 
+	public void GetSkill(Skill skill){
+		player.playerSkill.Add(skill);
 	}
 
 	public void GetITem(GameObject item){
 		var itemName = item.name.Replace("(Clone)","");
 
-		while(backPack.Count < 10){
-			backPack.Add(dataBase.itemDatabase.items[0]);
+
+		while(player.playerItems.Count < 10){
+			player.playerItems.Add(dataBase.itemDatabase.items[0]);
 		}
 
 		for(int n =0 ; n < dataBase.itemDatabase.items.Count; n++){
 			if(dataBase.itemDatabase.items[n].itemName == itemName){
-				getItem = dataBase.itemDatabase.items[n];
+				GetItemLoop(dataBase.itemDatabase.items[n]);
+				break;
 			}
 		}
-		GetItemLoop(getItem);
+		
 	}
 
 	private void GetItemLoop(Item getItem){
 
 		for(int i = 0 ; i < 10; i++){
-			if(backPack[i] == null){
-				backPack[i] = getItem;
-				Debug.Log(backPack.Count);
+			if(player.playerItems.Count == 0){
+				player.playerItems[i] = getItem;
+				Debug.Log(player.playerItems.Count);
 				return;
-			}else if (backPack[i].itemID == 0){
-				backPack[i] = getItem;
-				Debug.Log(backPack.Count);
+			}else if (player.playerItems[i].itemID == 0){
+				player.playerItems[i] = getItem;
+				Debug.Log(player.playerItems.Count);
 				return;
 			}
 		}

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameDataBase : MonoBehaviour {
 
+//今後ゲーム終了等まで使っていくプレイヤーの現在状態。（セーブロード時もこれを使う）
+public Player currentPlayer;
 public ItemDataBase itemDatabase;
 public EffectDataBase effectDatabase;
 public PlayerDataBase playerDatabase;
@@ -14,12 +16,13 @@ public int score = 0;
 		get; private set;
 	}
 	void Start () {
+		currentPlayer = currentPlayer.SetInitialize(currentPlayer);
 		effectDatabase.SetInitialize();
 		itemDatabase.SetInitialize(effectDatabase);
 		enemyDatabase.SetInitialize(itemDatabase);
-		playerDatabase.SetInitialize();
+		//playerDatabase.SetInitialize();
 		skillDatabase.SetInitialize();
-
+		
 		if (Instance != null) {
 			Destroy(gameObject);
 			return;
@@ -31,11 +34,12 @@ public int score = 0;
 		DontDestroyOnLoad(gameObject);
 	}
 
-	public void SetDataBase () {
+	public void Initialize () {
+		currentPlayer = currentPlayer.SetInitialize(currentPlayer);
 		effectDatabase.SetInitialize();
 		itemDatabase.SetInitialize(effectDatabase);
 		enemyDatabase.SetInitialize(itemDatabase);
-		playerDatabase.SetInitialize();
+		//playerDatabase.SetInitialize();
 		skillDatabase.SetInitialize();
 	}
 
@@ -43,23 +47,26 @@ public int score = 0;
 		skillDatabase.GetSkill(skill);
 	}
 
-	public void Save(){
-		string saveJson = LitJson.JsonMapper.ToJson(skillDatabase.mySkills);
+	public void Save(Player player){
+		string saveJson = LitJson.JsonMapper.ToJson(player);
 		saveJson = System.Text.RegularExpressions.Regex.Unescape(saveJson);
 		Debug.Log(saveJson);
-		ES2.Save(saveJson, "player?tag=json");		
+		ES2.Save(saveJson, "player?tag=json");
 	}
 
-	public void Load(){
-		skillDatabase.ClearMySkill();
+	public Player Load(){
+		//skillDatabase.ClearMySkill();
 		string loadJson = ES2.Load<string>("player?tag=json");
 		Debug.Log(loadJson);
 		//Skill loadskill = new Skill();
-		var skills = LitJson.JsonMapper.ToObject<Skill[]>(loadJson);
+		currentPlayer = LitJson.JsonMapper.ToObject<Player>(loadJson);
+		return currentPlayer;
+		/* 
 		foreach(var skill in skills){
 			Debug.Log(skill.skillName);
 			skillDatabase.GetSkill(skill);
 		}
+		*/
 	}
 	
 }

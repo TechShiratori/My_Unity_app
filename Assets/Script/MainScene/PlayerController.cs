@@ -83,10 +83,10 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		if (Input.GetKeyDown ("s")){
-			m_gameDataBase.Save();
+			m_actSceneController.SavePlayer();
 		}
 		if (Input.GetKeyDown ("l")){
-			m_gameDataBase.Load();
+			m_actSceneController.LoadPlayer();
 		}
 		/*
 		if (nextArea == true && Input.GetKeyDown ("z")) {
@@ -131,7 +131,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void toDash(float x){
-		if(m_gameDataBase.skillDatabase.mySkills.Exists(checkSkill => checkSkill.skillID == 5)){
+		if(m_actSceneController.player.playerSkill.Exists(checkSkill => checkSkill.skillID == 5)){
 			anim.SetTrigger("Shot");
 			StartCoroutine("Dash",x);
 		}
@@ -149,8 +149,8 @@ public class PlayerController : MonoBehaviour {
 			Destroy(col.gameObject);
 		}
 		if (col.gameObject.tag == "Point") {
-			m_actSceneController.AllPoint += 50;
-			Debug.Log(m_actSceneController.AllPoint);
+			m_actSceneController.player.playerExp += 50;
+			Debug.Log(m_actSceneController.player.playerExp);
 			Destroy(col.gameObject);
 		}
 	}

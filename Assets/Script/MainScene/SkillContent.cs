@@ -31,6 +31,7 @@ public class SkillContent : MonoBehaviour
         }
     }
 
+/* 
     public void SetSkillListVer2(int keyPosition){
         if (keyPosition + 1 > gameDataBase.skillDatabase.skills.Count){
             gameDataBase.skillDatabase.skills[keyPosition + 1] = null;
@@ -56,4 +57,5 @@ public class SkillContent : MonoBehaviour
         ScrollRect scrollRect = scrollViewTfm.GetComponent<ScrollRect>();
         scrollRect.verticalNormalizedPosition = Mathf.Clamp(1 - ny, 0, 1);  // Y軸は下から上なので反転してやる
     }
+    */
 }
