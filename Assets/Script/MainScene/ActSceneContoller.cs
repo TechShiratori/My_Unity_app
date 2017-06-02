@@ -14,7 +14,7 @@ public class ActSceneContoller : MonoBehaviour {
 	[SerializeField] private ActSceneScript m_actSceneScript;
 	[SerializeField] private Fade m_fade;
 	[SerializeField] private GameObject m_player;
-	[SerializeField] private GameDataBase dataBase;
+	private GameDataBase dataBase;
 	public enum ActionState {
 		First = 1,
 		Action,
@@ -35,6 +35,8 @@ public class ActSceneContoller : MonoBehaviour {
 	void Start () {
 		State = "First";
 		float dx = Time.deltaTime * 1f; //いらない？
+		var test = transform.parent.gameObject;
+		dataBase = test.gameObject.transform.FindChild("GameDataBase").GetComponent<GameDataBase>();
 	}
 	
 	// Update is called once per frame

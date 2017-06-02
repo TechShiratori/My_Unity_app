@@ -22,7 +22,7 @@ public int score = 0;
 		enemyDatabase.SetInitialize(itemDatabase);
 		//playerDatabase.SetInitialize();
 		skillDatabase.SetInitialize();
-		
+		/* 
 		if (Instance != null) {
 			Destroy(gameObject);
 			return;
@@ -32,6 +32,7 @@ public int score = 0;
 		Debug.Log(score);
 		
 		DontDestroyOnLoad(gameObject);
+		*/
 	}
 
 	public void Initialize () {
