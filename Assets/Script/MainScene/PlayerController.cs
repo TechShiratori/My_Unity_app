@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour {
 	private bool nextArea;
 	private int coolTime = 0;
 	private float direction = 1;
+	private int charge = 0;
+	private Weapon m_playerWeapon;
 
 	void Start () {
 		anim = GetComponent<Animator>();
@@ -64,13 +66,17 @@ public class PlayerController : MonoBehaviour {
 			anim.SetBool ("Run", false);
 		}
 
+		//攻撃する武器及びチャージ時間判定
+		m_playerWeapon = m_actSceneController.player.equipWeapon;
+		charge++;
+
 		//スペースキーを押した時:ジャンプ
 		if (Input.GetKeyDown ("space")) {
 			toJump ();
 		}
 			
 		//Xキーを押した時:ショット
-		if (Input.GetKeyDown ("x")){
+		if (Input.GetKey ("x")){
 			toShot (direction);
 		}
 
@@ -78,6 +84,11 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetKeyDown ("c") && coolTime == 25){
 			toDash (direction);
 			coolTime = 0;
+		}
+		if (Input.GetKeyDown ("tab")){
+			m_actSceneController.ChangeWeapon(m_playerWeapon);
+			//m_playerWeapon = m_actSceneController.player.equipWeapon;
+			charge = 0;
 		}
 
 		if (Input.GetKeyDown ("l")){
@@ -110,8 +121,14 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void toShot(float x){
-		anim.SetTrigger("Shot");
-		Instantiate(bullet, transform.position + new Vector3(x,1.2f,0f), transform.rotation);
+		if(charge > m_playerWeapon.weaponSpeed){
+			anim.SetTrigger("Shot");
+			if(m_playerWeapon.remainingBullet > 0 || m_playerWeapon.maxRemainingBullet == 0){
+				Instantiate(bullet, transform.position + new Vector3(x,1.2f,0f), transform.rotation);
+				m_playerWeapon.remainingBullet--;
+			}
+			charge = 0;
+		}
 	}
 
 	void toDash(float x){
@@ -126,13 +143,16 @@ public class PlayerController : MonoBehaviour {
 		//Enemyとぶつかった時にコルーチンを実行
 		if (col.gameObject.tag == "Enemy") {
 			StartCoroutine ("Damage");
-
 		}
-		if (col.gameObject.tag == "Item") {
+		else if (col.gameObject.tag == "Item") {
 			m_actSceneController.GetITem(col.gameObject);
 			Destroy(col.gameObject);
 		}
-		if (col.gameObject.tag == "Point") {
+		else if (col.gameObject.tag == "Weapon") {
+			m_actSceneController.GetITem(col.gameObject);
+			Destroy(col.gameObject);
+		}
+		else if (col.gameObject.tag == "Point") {
 			m_actSceneController.player.playerExp += 50;
 			Debug.Log(m_actSceneController.player.playerExp);
 			Destroy(col.gameObject);

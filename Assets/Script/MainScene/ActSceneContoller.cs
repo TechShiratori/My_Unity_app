@@ -53,7 +53,8 @@ public class ActSceneContoller : MonoBehaviour {
 				break;
 			case "Action":	//通常アクションプレイ時。プレイヤー、エネミー、ギミックがアクション
 				m_playerController.PlayerAction(); // プレイヤーアクション
-				m_mainCamera.tracePlayer();
+				m_mainCamera.tracePlayer(); //カメラのプレイヤー追随
+				m_playerUIController.SetUI(); //プレイヤーのHP、バッドステータス、スキルアイコン、現在武器の反映
 				Time.timeScale = 1;
 				if (Input.GetKeyDown ("q")){
 					State = "Menu";
@@ -135,8 +136,6 @@ public class ActSceneContoller : MonoBehaviour {
 
 	public void GetITem(GameObject item){
 		var itemName = item.name.Replace("(Clone)","");
-
-
 		while(player.playerItems.Count < 10){
 			player.playerItems.Add(dataBase.itemDatabase.items[0]);
 		}
@@ -147,7 +146,20 @@ public class ActSceneContoller : MonoBehaviour {
 				break;
 			}
 		}
-		
+	}
+
+	public void ChangeWeapon(Weapon playerWeapon){
+		m_playerUIController.SetWeaponIcon(playerWeapon);
+	}
+
+	public void GetWeapon(GameObject weaponObj){
+		var weaponName = weaponObj.name.Replace("(Clone)","");
+		var weapon = player.playerWeapons.Find(x => x.weaponName == weaponName);
+		if(weapon.isObtained == false){
+			player.playerWeapons[weapon.weaponID].isObtained = true;
+		} else if(weapon.maxRemainingBullet != 0){
+			player.playerWeapons[weapon.weaponID].remainingBullet += 10;
+		}
 	}
 
 	private void GetItemLoop(Item getItem){

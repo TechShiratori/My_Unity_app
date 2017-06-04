@@ -20,19 +20,7 @@ public int score = 0;
 		effectDatabase.SetInitialize();
 		itemDatabase.SetInitialize(effectDatabase);
 		enemyDatabase.SetInitialize(itemDatabase);
-		//playerDatabase.SetInitialize();
 		skillDatabase.SetInitialize();
-		/* 
-		if (Instance != null) {
-			Destroy(gameObject);
-			return;
-		}
-		Instance = this;
-		score += 30;
-		Debug.Log(score);
-		
-		DontDestroyOnLoad(gameObject);
-		*/
 	}
 
 	public void Initialize () {

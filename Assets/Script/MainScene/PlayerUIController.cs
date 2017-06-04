@@ -8,11 +8,15 @@ public class PlayerUIController : MonoBehaviour {
 	[SerializeField] private GameObject m_hPBar;
 	[SerializeField] private GameObject m_infectionBar;
 	[SerializeField] private GameObject m_skillIconObj;
+	[SerializeField] private GameObject m_weaponIcon;
+	[SerializeField] private Text m_remaingBulletText;
 	private GameObject m_skillIcons;
 	private Image m_hpImage;
 	private Image m_inImage;
 	private List<Skill> m_playerSkills;
+	private List<Weapon> m_playerWeapons;
 	private ActSceneContoller m_actSceneController;
+	private int m_selectWeapon = 0;
 	void Start ()
 	{
 		m_hpImage = m_hPBar.GetComponent<Image> ();
@@ -21,11 +25,33 @@ public class PlayerUIController : MonoBehaviour {
 		m_actSceneController = transform.parent.gameObject.GetComponent<ActSceneContoller>();
 	}
 
-	void Update(){
+	public void ChangeRemaingBullet(){
+		if(m_actSceneController.player.playerWeapons[m_selectWeapon].maxRemainingBullet != 0){
+			m_remaingBulletText.text = m_actSceneController.player.playerWeapons[m_selectWeapon].remainingBullet.ToString();
+		} else {
+			m_remaingBulletText.text = "infinity";
+		}
+	}
+
+	public void SetUI(){
 		m_playerSkills = m_actSceneController.player.playerSkill;
+		m_playerWeapons = m_actSceneController.player.playerWeapons;
 		if(m_skillIcons.transform.childCount < m_playerSkills.Count){
 			SetSkillIcon();
 		}
+		var weaponIconImage = m_weaponIcon.GetComponent<RawImage>();
+		weaponIconImage.texture = Resources.Load<Texture2D>("Textures/" + m_playerWeapons[m_selectWeapon].weaponIconName);
+		ChangeRemaingBullet();
+	}
+
+	public void SetWeaponIcon(Weapon playerWeapon){
+		m_actSceneController.player.playerWeapons[m_selectWeapon] = playerWeapon;
+		if(m_selectWeapon >= m_actSceneController.player.playerWeapons.Count - 1){
+			m_selectWeapon = 0;
+		}else{
+			m_selectWeapon++;
+		}
+		m_actSceneController.player.equipWeapon = m_actSceneController.player.playerWeapons[m_selectWeapon];
 	}
 
 	public void SetSkillIcon(){
