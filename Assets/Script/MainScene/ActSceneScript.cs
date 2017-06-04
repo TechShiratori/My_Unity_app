@@ -8,8 +8,12 @@ public class ActSceneScript : MonoBehaviour
 {
     //アイテムの取得、ワープなどUIに直接関連しない処理はこっち
     [SerializeField] private ActSceneContoller m_actSceneController;
-    [SerializeField] private GameObject m_startPoint;
-    [SerializeField] private Fade m_fade;
+    private SceneController m_sceneController;
+
+    public void SetInitialize(SceneController sceneController){
+        
+        m_sceneController = sceneController;
+    }
     public void GetITem(List<string> itemListName, GameObject item)
     {
         if (itemListName.Count < 10)
@@ -22,18 +26,18 @@ public class ActSceneScript : MonoBehaviour
             Debug.Log("所持アイテムがいっぱいです");
         }
     }
-    public void WarpOther(Fade fade, GameObject player, GameObject warpPoint)
+    public void WarpOther(GameObject player, GameObject warpPoint)
     {
 
         string warpName = warpPoint.name;
         string warpPointName = "warp_point_" + warpName.Substring(14) + "to" + warpName.Substring(11, 1);
         warpPoint = GameObject.Find(warpPointName);
 
-        fade.FadeIn(0.3f, () =>
-        {
+        m_sceneController.WarpFadeInOut(0.3f, ()=>{
             player.gameObject.transform.position = warpPoint.gameObject.transform.position;
-            fade.FadeOut(0.3f);
         });
+        
+
 		m_actSceneController.toWait();
 
         StartCoroutine(m_actSceneController.WaitToAction(0.5f, () =>
@@ -42,24 +46,22 @@ public class ActSceneScript : MonoBehaviour
         }));
     }
 
-    public void NextArea(Fade fade, GameObject player){
+    public void NextArea(GameObject player){
         SceneManager.LoadScene("Floor2");
     }
 
-    public void Restart(Fade fade, GameObject player)
+    public void Restart(GameObject player)
     {
-		
-        fade.FadeIn(0.3f, () =>
-        {
-            player.gameObject.transform.position = m_startPoint.gameObject.transform.position;
-			m_actSceneController.toRestart();
-            fade.FadeOut(0.3f);
+		var restartPoint = GameObject.FindWithTag("ReStartPoint");
+        m_sceneController.WarpFadeInOut(0.3f, ()=>{
+            player.gameObject.transform.position = restartPoint.gameObject.transform.position;
         });
-		m_actSceneController.toWait();
+        m_actSceneController.toRestart();
     }
-    public void GameOver()
+    public void GameOver(Action callback = null)
     {
-        m_fade.FadeIn(0.3f);
+        m_sceneController.OnFadeIn(0.3f);
         SceneManager.LoadScene("GameOver");
+        callback();
     }
 }

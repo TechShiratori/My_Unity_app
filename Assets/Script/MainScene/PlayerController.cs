@@ -8,11 +8,7 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] private float jumpPower = 700;
 	private float dashPower = 600;
 	[SerializeField] private LayerMask groundLayer;
-	[SerializeField] private GameObject mainCamera;
 	[SerializeField] private GameObject bullet;
-	[SerializeField] private GameObject mainMenu;
-	[SerializeField] private GameObject itemMenu;
-	[SerializeField] private UIController lifeScript;
 	[SerializeField] private ActSceneContoller m_actSceneController;
 	private Renderer m_renderer;
 	private GameDataBase m_gameDataBase;
@@ -21,11 +17,7 @@ public class PlayerController : MonoBehaviour {
 	private bool isGrounded;
 	private bool nextArea;
 	private int coolTime = 0;
-
 	private float direction = 1;
-	//static string State = "";
-
-	[SerializeField] private Fade m_fade;
 
 	void Start () {
 		anim = GetComponent<Animator>();
@@ -176,6 +168,11 @@ public class PlayerController : MonoBehaviour {
 			nextArea = false;
 		}
 	}
+
+	public void DamageEffect(int enemyPower)
+    {
+        m_actSceneController.DamageEffect(enemyPower);
+    }
 
 	private IEnumerator Dash(float x){
 		for(int i = 0; i < 10 ; i++){

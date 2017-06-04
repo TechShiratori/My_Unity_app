@@ -12,9 +12,11 @@ public class ActSceneContoller : MonoBehaviour {
 	[SerializeField] private PlayerUIController m_playerUIController;
 	[SerializeField] private PlayerController m_playerController;
 	[SerializeField] private ActSceneScript m_actSceneScript;
-	[SerializeField] private Fade m_fade;
 	[SerializeField] private GameObject m_player;
+	private SceneController m_sceneController;
+	private EnemyController m_enemyController;
 	private GameDataBase dataBase;
+	private CameraScript m_mainCamera;
 	public enum ActionState {
 		First = 1,
 		Action,
@@ -33,10 +35,13 @@ public class ActSceneContoller : MonoBehaviour {
 		BadStatus
 	}
 	void Start () {
-		State = "First";
 		float dx = Time.deltaTime * 1f; //いらない？
-		var test = transform.parent.gameObject;
-		dataBase = test.gameObject.transform.FindChild("GameDataBase").GetComponent<GameDataBase>();
+		var gameSceneManager = transform.parent.gameObject;
+		m_mainCamera = gameObject.transform.FindChild("MainCamera").GetComponent<CameraScript>();
+		dataBase = gameSceneManager.gameObject.transform.FindChild("GameDataBase").GetComponent<GameDataBase>();
+		m_sceneController = gameSceneManager.gameObject.transform.FindChild("SceneController").GetComponent<SceneController>();
+		m_enemyController = GameObject.Find("EnemyController").transform.GetComponent<EnemyController>();
+		State = "First";
 	}
 	
 	// Update is called once per frame
@@ -48,6 +53,7 @@ public class ActSceneContoller : MonoBehaviour {
 				break;
 			case "Action":	//通常アクションプレイ時。プレイヤー、エネミー、ギミックがアクション
 				m_playerController.PlayerAction(); // プレイヤーアクション
+				m_mainCamera.tracePlayer();
 				Time.timeScale = 1;
 				if (Input.GetKeyDown ("q")){
 					State = "Menu";
@@ -69,10 +75,12 @@ public class ActSceneContoller : MonoBehaviour {
 			case "Warp": 
 				break;
 			case "GameOver":
-					m_actSceneScript.GameOver();
+					m_actSceneScript.GameOver(()=>{
+						Destroy(transform.parent.gameObject);
+					});
 				break;
 			case "Restart":
-					m_actSceneScript.Restart(m_fade,m_player);
+					m_actSceneScript.Restart(m_player);
 				break;
 			default:
 				break;
@@ -81,6 +89,8 @@ public class ActSceneContoller : MonoBehaviour {
 	private void FirstAction () {
 		//イベントフラグのif判定してあればEventControllerあたりで処理？その後Actionへ
 		//プレイヤーの状態設定（セーブロードじゃなければ、初期設定のを読み込む）
+		m_enemyController.SetEnemys(dataBase,this);
+		m_actSceneScript.SetInitialize(m_sceneController);
 		player = dataBase.currentPlayer;
 		//Debug.Log(player.playerName);
 		State = "Action";
@@ -88,13 +98,13 @@ public class ActSceneContoller : MonoBehaviour {
 	public void toWarp (GameObject player,GameObject warpPoint) {
 		if(State == "Action"){
 			State = ActionState.Warp.ToString();
-			m_actSceneScript.WarpOther(m_fade,player,warpPoint);
+			m_actSceneScript.WarpOther(player,warpPoint);
 		}
 	}
 	public void toNextArea (GameObject player,GameObject warpPoint) {
 		if(State == "Action"){
 			State = ActionState.Warp.ToString();
-			m_actSceneScript.NextArea(m_fade,player);
+			m_actSceneScript.NextArea(player);
 		}
 	}
 
@@ -158,7 +168,7 @@ public class ActSceneContoller : MonoBehaviour {
 
 	public void DamageEffect(int effectPower){
 		m_playerUIController.ChangeLife(effectPower * -1);
-		m_playerUIController.ChangeInfection(effectPower * 0.1f);
+		m_playerUIController.ChangeInfection(effectPower * 2.1f);
 	}
 
 	public void ActiveEffect(Effect effect){

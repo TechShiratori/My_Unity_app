@@ -22,26 +22,40 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class SceneController : MonoBehaviour {
 
-	[SerializeField] Fade fade = null;
+	[SerializeField] Fade fade;
 	[SerializeField] FadeImage m_fadeImage;
 	[SerializeField] GameObject m_blackOut;
 
 	// Use this for initialization
 	void Start () {
 		m_blackOut.SetActive (true);
-		fade.FadeIn (0);
-		Invoke ("OnFadeOut", 1f);
+		FirstFadeOut();
 	}
 
-	void OnFadeIn(){
-		fade.FadeIn (1);
+	public void FirstFadeOut(){
+		fade.FadeIn (0,()=>{
+			m_blackOut.SetActive (false);
+			OnFadeOut(0.6f);
+		});
 	}
 
-	void OnFadeOut(){
-		m_blackOut.SetActive (false);
-		fade.FadeOut (1);
+	public void WarpFadeInOut(float time, Action callback = null){
+		fade.FadeIn (time,()=>{
+			OnFadeOut(time);
+			if(callback != null) callback();
+		});
+	}
+	public void OnFadeIn(float time, Action callback = null){
+		fade.FadeIn (time);
+		if(callback != null) callback();
+	}
+	
+	public void OnFadeOut(float time, Action callback = null){
+		fade.FadeOut (time);
+		if(callback != null) callback();
 	}
 }

@@ -15,10 +15,10 @@ public class SkillMenuController : MonoBehaviour
 	private int m_skillAllCount;
 	void Start(){
 		m_index = 3;
+		var gameSceneManager = transform.root.gameObject;
 		m_gameDataBase = GameObject.Find("GameDataBase").transform.GetComponent<GameDataBase>();
 		m_actSceneController = GameObject.Find("ActScene").transform.GetComponent<ActSceneContoller>();
 		m_skillAllCount = m_gameDataBase.skillDatabase.skills.Count;
-		Debug.Log(m_skillAllCount);
 	}
     public void Open()
     {

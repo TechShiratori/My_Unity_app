@@ -85,7 +85,7 @@ public class EnemyScript : MonoBehaviour
     {
         if (col.gameObject.tag == "UnityChan")
         {
-            m_enemyController.DamageEffect(m_enemy.enemyPower);
+            m_enemyController.AttackPlayer(m_enemy.enemyPower);
         }
     }
 
@@ -93,13 +93,11 @@ public class EnemyScript : MonoBehaviour
     {
         if (_isRendered && col.tag == "Bullet")
         {
-            int playerATK = m_actSceneController.player.playerPower;
-            m_hp -= playerATK;
+            m_hp = m_enemyController.CalculateDamage(m_hp);
             if (m_hp <= 0)
             {
                 m_enemy.enemyStatus = Enemy.EnemyStatus.Dead;
                 m_enemyController.DeadEffect(gameObject);
-                //DropItem();
 				int randomValue = Random.Range(0, 100);
 				if (randomValue <= m_enemy.itemDropProbability)
 				{
@@ -109,6 +107,8 @@ public class EnemyScript : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+
+
     }
 
     public void DropItem()
