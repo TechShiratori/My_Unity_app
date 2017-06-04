@@ -12,7 +12,7 @@ public class ActSceneContoller : MonoBehaviour {
 	[SerializeField] private PlayerUIController m_playerUIController;
 	[SerializeField] private PlayerController m_playerController;
 	[SerializeField] private ActSceneScript m_actSceneScript;
-	[SerializeField] private GameObject m_player;
+	[SerializeField] private GameObject m_playerObj;
 	private SceneController m_sceneController;
 	private EnemyController m_enemyController;
 	private GameDataBase dataBase;
@@ -82,7 +82,7 @@ public class ActSceneContoller : MonoBehaviour {
 					});
 				break;
 			case "Restart":
-					m_actSceneScript.Restart(m_player);
+					m_actSceneScript.Restart();
 				break;
 			default:
 				break;
@@ -92,16 +92,16 @@ public class ActSceneContoller : MonoBehaviour {
 		//イベントフラグのif判定してあればEventControllerあたりで処理？その後Actionへ
 		//プレイヤーの状態設定（セーブロードじゃなければ、初期設定のを読み込む）
 		m_enemyController.SetEnemys(dataBase,this);
-		m_actSceneScript.SetInitialize(m_sceneController);
+		m_actSceneScript.SetInitialize(m_sceneController,m_playerObj);
 		player = dataBase.currentPlayer;
 		//Debug.Log(player.playerName);
 		State = "Action";
 	}
-	public void toWarp (GameObject player,GameObject warpPoint) {
-		m_actSceneScript.WarpOther(player,warpPoint);
+	public void toWarp (GameObject warpPoint) {
+		m_actSceneScript.WarpOther(warpPoint);
 	}
-	public void toNextArea (GameObject player) {
-		m_actSceneScript.NextArea(player);
+	public void toNextArea () {
+		m_actSceneScript.NextArea();
 	}
 
 	public void toAction(){
@@ -119,10 +119,14 @@ public class ActSceneContoller : MonoBehaviour {
 	}
 
 	public void SavePlayer(){
+		player.playerSave = SceneManager.GetActiveScene().name;
 		dataBase.Save(player);
 	}
 	public void LoadPlayer(){
 		player = dataBase.Load();
+		m_actSceneScript.LoadPosition(player);
+		//SceneManager.LoadScene(player.playerSave);
+		
 	}
 
 	public void GetSkill(Skill skill){

@@ -24,6 +24,6 @@ public class PlayerDataBase : MonoBehaviour {
 	public void SetInitialize()	//初期のプレイヤーデータ
     {
 			player.Clear();
-			player.Add(new Player("リゼ",0,"裏切りの科学者",100,100,0,0,10,10,Player.PlayerHealth.Fine,Player.PlayerStatus.None,null,null,0));
+			player.Add(new Player("リゼ",0,"裏切りの科学者",100,100,0,0,10,10,Player.PlayerHealth.Fine,Player.PlayerStatus.None,"",null,null,0));
     }
 }

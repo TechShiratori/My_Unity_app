@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerController : MonoBehaviour {
 
 	[SerializeField] private float speed = 4f;
@@ -79,25 +80,11 @@ public class PlayerController : MonoBehaviour {
 			coolTime = 0;
 		}
 
-		if (Input.GetKeyDown ("s")){
-			m_actSceneController.SavePlayer();
-		}
 		if (Input.GetKeyDown ("l")){
 			m_actSceneController.LoadPlayer();
 		}
-		/*
-		if (nextArea == true && Input.GetKeyDown ("z")) {
-			m_actSceneController.State = "NextFloor";
-			m_fade.FadeIn (1);
-			Invoke("NextFloor",1f);
-		}
-		*/
 	}
-/* 
-	void NextFloor(){
-		Application.LoadLevel ("Floor2");
-	}
-*/
+
 	void toRun(float x){
 		m_rigidbody2D.velocity = new Vector2 (x * speed, m_rigidbody2D.velocity.y);
 		Vector2 temp = transform.localScale;
@@ -154,10 +141,13 @@ public class PlayerController : MonoBehaviour {
 	void OnTriggerStay2D (Collider2D col)
 	{
 		if(col.gameObject.tag == "Warp" && Input.GetKeyDown ("z")){
-			m_actSceneController.toWarp(gameObject,col.gameObject);
+			m_actSceneController.toWarp(col.gameObject);
 		}
 		if(col.gameObject.tag == "NextArea" && Input.GetKeyDown ("z")){
-			m_actSceneController.toNextArea(gameObject);
+			m_actSceneController.toNextArea();
+		}
+		if(col.gameObject.tag == "SavePoint" && Input.GetKeyDown ("s")){
+			m_actSceneController.SavePlayer();
 		}
 	}
 	

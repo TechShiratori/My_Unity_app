@@ -13,6 +13,7 @@ public class Player{
 	public int playerErosion; //プレイヤーの侵食率
 	public int playerPower; //プレイヤーの基礎攻撃力
 	public int playerSpeed; //プレイヤーの移動速度
+	public string playerSave; //プレイヤーが直前にセーブした場所
 	public PlayerHealth playerHealth;
 	public PlayerStatus playerStatus;
 	public enum PlayerHealth	//プレイヤーの現在ステータス(HP関連) いらないかも
@@ -36,7 +37,7 @@ public class Player{
 	public List<Skill> playerSkill;
 	public int playerExp;
 
-	public Player(string name, int id, string desc, int life, int maxlife, int infection, int erosion ,int power, int speed, PlayerHealth health, PlayerStatus status, List<Item> items, List<Skill> skills, int exp)
+	public Player(string name, int id, string desc, int life, int maxlife, int infection, int erosion ,int power, int speed, PlayerHealth health, PlayerStatus status,string save, List<Item> items, List<Skill> skills, int exp)
     {
         playerName = name;
         playerID = id;
@@ -49,6 +50,7 @@ public class Player{
         playerSpeed = speed;
         playerHealth = health;
 		playerStatus = status;
+		playerSave = save;
 		playerItems = items;
 		playerSkill = skills;
 		playerExp = exp;
@@ -60,7 +62,7 @@ public class Player{
     {
 		List<Item> initializeItems = new List<Item>();
 		List<Skill> initializeSkill = new List<Skill>();
-		player = new Player("リゼ=アルコット",0,"裏切りの科学者",100,100,0,0,10,10,Player.PlayerHealth.Fine,Player.PlayerStatus.None,initializeItems,initializeSkill,0);
+		player = new Player("リゼ=アルコット",0,"裏切りの科学者",100,100,0,0,10,10,Player.PlayerHealth.Fine,Player.PlayerStatus.None,"",initializeItems,initializeSkill,0);
 		return player;
 	}
 

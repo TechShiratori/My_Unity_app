@@ -9,10 +9,13 @@ public class ActSceneScript : MonoBehaviour
     //アイテムの取得、ワープなどUIに直接関連しない処理はこっち
     [SerializeField] private ActSceneContoller m_actSceneController;
     private SceneController m_sceneController;
+    private GameObject m_playerObj;
 
-    public void SetInitialize(SceneController sceneController){
+    public void SetInitialize(SceneController sceneController, GameObject playerObj){
         
         m_sceneController = sceneController;
+        m_playerObj = playerObj;
+        
     }
     public void GetITem(List<string> itemListName, GameObject item)
     {
@@ -26,7 +29,7 @@ public class ActSceneScript : MonoBehaviour
             Debug.Log("所持アイテムがいっぱいです");
         }
     }
-    public void WarpOther(GameObject player, GameObject warpPoint)
+    public void WarpOther(GameObject warpPoint)
     {
 
         string warpName = warpPoint.name;
@@ -34,7 +37,7 @@ public class ActSceneScript : MonoBehaviour
         warpPoint = GameObject.Find(warpPointName);
 
         m_sceneController.WarpFadeIn(0.3f, ()=>{
-            player.gameObject.transform.position = warpPoint.gameObject.transform.position;
+            m_playerObj.gameObject.transform.position = warpPoint.gameObject.transform.position;
             m_actSceneController.toWait();
             m_sceneController.WarpFadeOut(0.3f, ()=>{
                 StartCoroutine(m_actSceneController.WaitToAction(0.1f, () =>
@@ -45,37 +48,38 @@ public class ActSceneScript : MonoBehaviour
         });
     }
 
-    public void NextArea(GameObject player,Action call = null){
+    public void NextArea(Action call = null){
         m_sceneController.WarpFadeIn(0.3f, ()=>{
             SceneManager.LoadScene("Floor2");
+            m_sceneController.SetBlackOut();
             StartCoroutine(m_actSceneController.WaitToAction(0.01f, () =>
                 {
                     m_sceneController.SetBlackOut();
                     var startPoint = GameObject.FindWithTag("ReStartPoint");
                     Debug.Log(startPoint.transform.position);
-                    player.gameObject.transform.position = startPoint.transform.position;
+                    m_playerObj.gameObject.transform.position = startPoint.transform.position;
                 }));
-            /* 
-            m_sceneController.SetAction(()=>{
-                player.gameObject.transform.position = new Vector2(0,0);
-            });
-             
-            m_actSceneController.toWait();
-            m_sceneController.WarpFadeOut(0.3f, ()=>{
-                StartCoroutine(m_actSceneController.WaitToAction(0.1f, () =>
+        });
+    }
+    public void LoadPosition(Player player,Action call = null){
+        m_sceneController.WarpFadeIn(0.3f, ()=>{
+            SceneManager.LoadScene(player.playerSave);
+            m_sceneController.SetBlackOut();
+            StartCoroutine(m_actSceneController.WaitToAction(0.01f, () =>
                 {
-                    m_actSceneController.toAction();
+                    m_sceneController.FirstFadeOut();
+                    var savePoint = GameObject.FindWithTag("SavePoint");
+                    Debug.Log(savePoint.transform.position);
+                    m_playerObj.gameObject.transform.position = savePoint.transform.position;
                 }));
-            });
-            */
         });
     }
 
-    public void Restart(GameObject player)
+    public void Restart()
     {
 		var restartPoint = GameObject.FindWithTag("ReStartPoint");
         m_sceneController.WarpFadeIn(0.3f, ()=>{
-            player.gameObject.transform.position = restartPoint.gameObject.transform.position;
+            m_playerObj.gameObject.transform.position = restartPoint.gameObject.transform.position;
             m_sceneController.WarpFadeOut(0.3f, () =>
             {
                 m_actSceneController.toRestart();

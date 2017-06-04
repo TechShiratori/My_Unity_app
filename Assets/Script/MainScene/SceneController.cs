@@ -74,7 +74,7 @@ public class SceneController : MonoBehaviour {
 
 	public void SetBlackOut(){
 		m_blackOut.SetActive (true);
-		FirstFadeOut();
+		//FirstFadeOut();
 	}
 
 	public void SetAction(Action action = null){
