@@ -37,48 +37,6 @@ public class MainMenuController : MonoBehaviour {
 		m_cursor.transform.localPosition = new Vector2(0,selectButton.transform.localPosition.y);
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		/* 
-		if(Input.GetKey(KeyCode.UpArrow) && count > 8){
-			if(keyPosition !=1){
-				keyPosition--;
-			}else{
-				keyPosition = 3;
-			}
-			SelectCursor(keyPosition);
-			selectSceneName = ex.ToString() + "Menu";
-		}
-		else if(Input.GetKey(KeyCode.DownArrow) && count > 8){
-			if(keyPosition !=3){
-				keyPosition++;
-			}else{
-				keyPosition = 1;
-			}
-			SelectCursor(keyPosition);
-			selectSceneName = ex.ToString() + "Menu";
-		}
-		else if(Input.GetKey(KeyCode.Z) && count > 8){
-			for(int i = 0; i < m_playerMenu.transform.childCount; i++){
-				if(selectSceneName == m_playerMenu.transform.GetChild(i).gameObject.name){
-					selectMenu = m_playerMenu.transform.GetChild(i).gameObject;
-				}
-			}
-			count = 0;
-			Debug.Log(m_act.itemListName[0]);
-			selectMenu.SetActive(true);
-			thisMenu = this.gameObject;
-			thisMenu.SetActive(false);
-			if(selectSceneName == "ItemMenu"){
-				m_itemMenuController.Open();
-			}else if (selectSceneName == "SkillMenu"){
-				Debug.Log("Skill");
-			}
-		}
-		count++;
-		m_pointText.text = "SearchPoint:" + m_act.AllPoint.ToString();
-		*/
-	}
 	public void Open(){
 		m_pointText.text = "SearchPoint:" + m_act.player.playerExp.ToString();
 

@@ -61,6 +61,8 @@ public class ActSceneContoller : MonoBehaviour {
 				}
 				break;
 			case "Wait":	//プレイヤーだけが動けない状態
+				m_playerController.PlayerWait();
+				m_mainCamera.tracePlayer();
 				break;
 			case "Event":	//イベント中
 				break;
@@ -69,8 +71,8 @@ public class ActSceneContoller : MonoBehaviour {
 				m_playerMenuController.ActiveMenu();
 				break;
 			case "NextFloor": //フロア（シーン）移動用。
-					StartCoroutine("WaitTime");
-					SceneManager.LoadScene("Floor2");
+					//StartCoroutine("WaitTime");
+					//SceneManager.LoadScene("Floor2");
 				break;
 			case "Warp": 
 				break;
@@ -96,16 +98,10 @@ public class ActSceneContoller : MonoBehaviour {
 		State = "Action";
 	}
 	public void toWarp (GameObject player,GameObject warpPoint) {
-		if(State == "Action"){
-			State = ActionState.Warp.ToString();
-			m_actSceneScript.WarpOther(player,warpPoint);
-		}
+		m_actSceneScript.WarpOther(player,warpPoint);
 	}
-	public void toNextArea (GameObject player,GameObject warpPoint) {
-		if(State == "Action"){
-			State = ActionState.Warp.ToString();
-			m_actSceneScript.NextArea(player);
-		}
+	public void toNextArea (GameObject player) {
+		m_actSceneScript.NextArea(player);
 	}
 
 	public void toAction(){
@@ -190,8 +186,7 @@ public class ActSceneContoller : MonoBehaviour {
             break;
 		}
 	}
-
-	public IEnumerator WaitToAction(float waitTime,Action action){
+	public IEnumerator WaitToAction(float waitTime,Action action = null){
         yield return new WaitForSeconds(waitTime);
 		action();
     }

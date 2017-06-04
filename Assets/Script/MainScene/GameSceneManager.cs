@@ -16,7 +16,6 @@ public class GameSceneManager : MonoBehaviour {
 			return;
 		}
 		Instance = this;
-		
 		DontDestroyOnLoad(gameObject);
 		m_actSceneObj = Resources.Load("Prefab/ActScene") as GameObject;
 		var inst = Instantiate(m_actSceneObj,this.transform);

@@ -29,6 +29,7 @@ public class SceneController : MonoBehaviour {
 	[SerializeField] Fade fade;
 	[SerializeField] FadeImage m_fadeImage;
 	[SerializeField] GameObject m_blackOut;
+	private Action m_action;
 
 	// Use this for initialization
 	void Start () {
@@ -43,12 +44,24 @@ public class SceneController : MonoBehaviour {
 		});
 	}
 
-	public void WarpFadeInOut(float time, Action callback = null){
+	public void WarpFadeIn(float time, Action callback = null){
+		fade.FadeIn (time,()=>{
+			if(callback != null) callback();
+		});
+	}
+	public void WarpFadeOut(float time, Action callback = null){
+		fade.FadeOut (time,()=>{
+			if(callback != null) callback();
+		});
+	}
+
+	public void NextAreaFade(float time, Action callback = null){
 		fade.FadeIn (time,()=>{
 			OnFadeOut(time);
 			if(callback != null) callback();
 		});
 	}
+
 	public void OnFadeIn(float time, Action callback = null){
 		fade.FadeIn (time);
 		if(callback != null) callback();
@@ -57,5 +70,17 @@ public class SceneController : MonoBehaviour {
 	public void OnFadeOut(float time, Action callback = null){
 		fade.FadeOut (time);
 		if(callback != null) callback();
+	}
+
+	public void SetBlackOut(){
+		m_blackOut.SetActive (true);
+		FirstFadeOut();
+	}
+
+	public void SetAction(Action action = null){
+		m_action = action;
+	}
+	public void ToAction(Action action){
+		if (m_action != null) m_action();
 	}
 }

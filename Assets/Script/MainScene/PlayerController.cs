@@ -33,6 +33,11 @@ public class PlayerController : MonoBehaviour {
 	{
 	}
 
+	public void PlayerWait(){
+		m_rigidbody2D.velocity = new Vector2 (0, m_rigidbody2D.velocity.y);
+		anim.SetBool ("Run", false);
+	}
+
 	public void PlayerAction(){
 		//接地判定
 		isGrounded = Physics2D.Linecast (
@@ -152,7 +157,7 @@ public class PlayerController : MonoBehaviour {
 			m_actSceneController.toWarp(gameObject,col.gameObject);
 		}
 		if(col.gameObject.tag == "NextArea" && Input.GetKeyDown ("z")){
-			m_actSceneController.toNextArea(gameObject,col.gameObject);
+			m_actSceneController.toNextArea(gameObject);
 		}
 	}
 	
