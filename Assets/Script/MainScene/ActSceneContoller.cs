@@ -154,12 +154,9 @@ public class ActSceneContoller : MonoBehaviour {
 
 	public void GetWeapon(GameObject weaponObj){
 		var weaponName = weaponObj.name.Replace("(Clone)","");
-		var weapon = player.playerWeapons.Find(x => x.weaponName == weaponName);
-		if(weapon.isObtained == false){
-			player.playerWeapons[weapon.weaponID].isObtained = true;
-		} else if(weapon.maxRemainingBullet != 0){
-			player.playerWeapons[weapon.weaponID].remainingBullet += 10;
-		}
+		Weapon weapon = player.playerWeapons.Find(x => x.weaponIconName == weaponName);
+		Debug.Log(weapon.weaponName);
+		player.playerWeapons[weapon.weaponID].remainingBullet += 10;
 	}
 
 	private void GetItemLoop(Item getItem){

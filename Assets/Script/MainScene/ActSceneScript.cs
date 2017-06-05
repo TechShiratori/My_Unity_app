@@ -54,9 +54,8 @@ public class ActSceneScript : MonoBehaviour
             m_sceneController.SetBlackOut();
             StartCoroutine(m_actSceneController.WaitToAction(0.01f, () =>
                 {
-                    m_sceneController.SetBlackOut();
+                    m_sceneController.FirstFadeOut();
                     var startPoint = GameObject.FindWithTag("ReStartPoint");
-                    Debug.Log(startPoint.transform.position);
                     m_playerObj.gameObject.transform.position = startPoint.transform.position;
                 }));
         });

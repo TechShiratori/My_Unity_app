@@ -11,6 +11,7 @@ public EffectDataBase effectDatabase;
 public PlayerDataBase playerDatabase;
 public EnemyDataBase enemyDatabase;
 public SkillDataBase skillDatabase;
+public WeaponDataBase weaponDataBase;
 public int score = 0;
 	public static GameDataBase Instance{
 		get; private set;

@@ -68,9 +68,9 @@ public class Player{
 		List<Skill> initializeSkill = new List<Skill>();
 		List<Weapon> initializeWeapons = new List<Weapon>();
 		initializeWeapons.Add(new Weapon("ハンドガン", 0, "HandGun","護身用のハンドガン。威力はあまり高くない",10, 20, 0, 0, true,Weapon.WeaponTypes.SingleShot));
-		initializeWeapons.Add(new Weapon("アサルトライフル", 0,"AssaultRifle","標準的な突撃銃。連射力、威力共に優れている", 20, 5, 100, 999, false,Weapon.WeaponTypes.AssaultRifle));
-        initializeWeapons.Add(new Weapon("ショットガン", 0,"ShotGun", "近距離で高い威力を発揮する銃。しかし連射力が低いのが欠点",50, 35, 10, 99, false,Weapon.WeaponTypes.Shotgun));
-        initializeWeapons.Add(new Weapon("マグナム", 0,"Magnum", "取り回しが難しいが威力が非常に高い銃。弾が希少なのが欠点",100, 25, 6, 99, false,Weapon.WeaponTypes.Shotgun));
+		initializeWeapons.Add(new Weapon("アサルトライフル", 1,"AssaultRifle","標準的な突撃銃。連射力、威力共に優れている", 20, 5, 100, 999, false,Weapon.WeaponTypes.AssaultRifle));
+        initializeWeapons.Add(new Weapon("ショットガン", 2,"ShotGun", "近距離で高い威力を発揮する銃。しかし連射力が低いのが欠点",50, 35, 10, 99, false,Weapon.WeaponTypes.Shotgun));
+        initializeWeapons.Add(new Weapon("マグナム", 3,"Magnum", "取り回しが難しいが威力が非常に高い銃。弾が希少なのが欠点",100, 25, 6, 99, false,Weapon.WeaponTypes.Shotgun));
 		var setequip = initializeWeapons[0];
 		player = new Player("リゼ=アルコット",0,"裏切りの科学者",100,100,0,0,10,10,Player.PlayerHealth.Fine,Player.PlayerStatus.None,"",initializeItems,initializeSkill,initializeWeapons,setequip,0);
 		return player;

@@ -149,7 +149,7 @@ public class PlayerController : MonoBehaviour {
 			Destroy(col.gameObject);
 		}
 		else if (col.gameObject.tag == "Weapon") {
-			m_actSceneController.GetITem(col.gameObject);
+			m_actSceneController.GetWeapon(col.gameObject);
 			Destroy(col.gameObject);
 		}
 		else if (col.gameObject.tag == "Point") {
