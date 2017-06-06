@@ -14,7 +14,7 @@ public class SkillMenuController : MonoBehaviour
 	private int m_index = 0;
 	private int m_skillAllCount;
 	void Start(){
-		m_index = 3;
+		m_index = 1;
 		var gameSceneManager = transform.root.gameObject;
 		m_gameDataBase = GameObject.Find("GameDataBase").transform.GetComponent<GameDataBase>();
 		m_actSceneController = GameObject.Find("ActScene").transform.GetComponent<ActSceneContoller>();
@@ -28,9 +28,11 @@ public class SkillMenuController : MonoBehaviour
 			if(m_index >= m_skillAllCount){
 				m_index = 0;
 			}
-			Vector2 pos = m_skillRect.transform.position;
+			Vector2 pos = m_skillRect.transform.localPosition;
+			Debug.Log(pos.y);
 			pos.y += 100;
-			m_skillRect.transform.position = pos;
+			m_skillRect.transform.localPosition = pos;
+			Debug.Log(pos);
 			SelectCursor(m_index);
 			Debug.Log(m_index);
 		}
@@ -40,9 +42,9 @@ public class SkillMenuController : MonoBehaviour
 			if(m_index < 0){
 				m_index = m_skillAllCount - 1;
 			}
-			Vector2 pos = m_skillRect.transform.position;
+			Vector2 pos = m_skillRect.transform.localPosition;
 			pos.y -= 100;
-			m_skillRect.transform.position = pos;
+			m_skillRect.transform.localPosition = pos;
 			SelectCursor(m_index);
 			Debug.Log(m_index);
 		}
