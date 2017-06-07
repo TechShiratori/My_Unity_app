@@ -80,8 +80,12 @@ public class InfiniteScroll : UIBehaviour
 		for(int i = 0; i < instantateItemCount; i++) {
 
 			var item = GameObject.Instantiate(itemPrototype) as RectTransform;
-			var skillListComponent = item.GetComponent<SkillList>();
-			skillListComponent.setSkill(gameDataBase.skillDatabase.skills[i]);
+
+			if(item.GetComponent<SkillList>() != null){
+				item.GetComponent<SkillList>().setSkill(gameDataBase.skillDatabase.skills[i]);
+			}else if(item.GetComponent<WeaponList>() != null){
+				item.GetComponent<WeaponList>().setWeapon(gameDataBase.weaponDataBase.weapons[i]);
+			}
 
 			item.SetParent(transform, false);
 			item.name = i.ToString();

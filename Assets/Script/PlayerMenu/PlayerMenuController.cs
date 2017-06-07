@@ -7,11 +7,13 @@ using System;
 public class PlayerMenuController : MonoBehaviour {
 	[SerializeField] private GameObject m_actSceneController;
 	[SerializeField] private GameObject m_mainMenu;
+	[SerializeField] private GameObject m_weaponMenu;
 	[SerializeField] private GameObject m_itemMenu;
 	[SerializeField] private GameObject m_skillMenu;
 	[SerializeField] private GameObject m_optionMenu;
 	public enum MenuState{
 		Main = 0,
+		Weapon,
 		Item,
 		Skill,
 		Option,
@@ -32,6 +34,8 @@ public class PlayerMenuController : MonoBehaviour {
 	public void ActiveMenu(){
 		if(menuState == MenuState.Main){
 			openMainMenu();
+		}else if(menuState == MenuState.Weapon){
+			openWeaponMenu();
 		}else if(menuState == MenuState.Item){
 			openItemMenu();
 		}else if(menuState == MenuState.Skill){
@@ -52,9 +56,16 @@ public class PlayerMenuController : MonoBehaviour {
 		menuState = MenuState.Main;
 		m_mainMenuController.Open();
 		m_mainMenu.SetActive(true);
+		m_weaponMenu.SetActive(false);
 		m_itemMenu.SetActive(false);
 		m_skillMenu.SetActive(false);
 		m_optionMenu.SetActive(false);
+	}
+	public void openWeaponMenu(){
+		var m_weaponController = m_weaponMenu.GetComponent<WeaponController>();
+		m_mainMenu.SetActive(false);
+		m_weaponMenu.SetActive(true);
+		m_weaponController.Open();
 	}
 	public void openItemMenu(){
 		var m_itemMenuController = m_itemMenu.GetComponent<ItemMenuController>();

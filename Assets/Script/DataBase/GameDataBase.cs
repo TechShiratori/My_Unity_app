@@ -22,6 +22,7 @@ public int score = 0;
 		itemDatabase.SetInitialize(effectDatabase);
 		enemyDatabase.SetInitialize(itemDatabase);
 		skillDatabase.SetInitialize();
+		weaponDataBase.SetInitialize();
 	}
 
 	public void Initialize () {

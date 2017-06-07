@@ -36,7 +36,7 @@ public class EnemyController : MonoBehaviour
     }
 
     public int CalculateDamage(int enemyHp){
-        int playerATK = m_actSceneController.player.playerPower;
+        int playerATK = m_actSceneController.player.playerPower + m_actSceneController.player.equipWeapon.weaponPower;
         enemyHp -= playerATK;
         return enemyHp;
     }

@@ -10,9 +10,9 @@ public class MainMenuController : MonoBehaviour {
 	private string selectSceneName;
 	private GameObject selectButton;
 	private GameObject selectMenu;
-	private GameObject thisMenu;
 	private enum MenuButton{
 		Main = 0,
+		Weapon,
 		Item,
 		Skill,
 		Option
@@ -23,7 +23,7 @@ public class MainMenuController : MonoBehaviour {
 	[SerializeField] private ActSceneContoller m_act;
 	[SerializeField] private Text m_pointText;
 	[SerializeField] private Text m_playerController;
-	private MenuButton ex;
+	private MenuButton m_menuButton;
 
 	// Use this for initialization
 	void Start () {
@@ -44,19 +44,19 @@ public class MainMenuController : MonoBehaviour {
 			if(keyPosition !=1){
 				keyPosition--;
 			}else{
-				keyPosition = 3;
+				keyPosition = 4;
 			}
 			SelectCursor(keyPosition);
-			selectSceneName = ex.ToString();
+			selectSceneName = m_menuButton.ToString();
 		}
 		else if(Input.GetKey(KeyCode.DownArrow) && count > 8){
-			if(keyPosition !=3){
+			if(keyPosition !=4){
 				keyPosition++;
 			}else{
 				keyPosition = 1;
 			}
 			SelectCursor(keyPosition);
-			selectSceneName = ex.ToString();
+			selectSceneName = m_menuButton.ToString();
 		}
 		else if(Input.GetKey(KeyCode.Z) && count > 8){
 			var playerMenuController = m_playerMenu.GetComponent<PlayerMenuController>();
@@ -72,7 +72,7 @@ public class MainMenuController : MonoBehaviour {
 	}
 	private void SelectCursor(int m_select){
 		count = 0;
-		ex = (MenuButton) keyPosition;
+		m_menuButton = (MenuButton) keyPosition;
 		selectButtonName = "MainMenuButton_" + m_select.ToString();
 		selectButton = GameObject.Find(selectButtonName);
 		m_cursor.transform.localPosition = new Vector2(0,selectButton.transform.localPosition.y);
