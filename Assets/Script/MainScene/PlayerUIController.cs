@@ -44,14 +44,18 @@ public class PlayerUIController : MonoBehaviour {
 		ChangeRemaingBullet();
 	}
 
+
 	public void SetWeaponIcon(Weapon playerWeapon){
-		m_actSceneController.player.playerWeapons[m_selectWeapon] = playerWeapon;
-		if(m_selectWeapon >= m_actSceneController.player.playerWeapons.Count - 1){
-			m_selectWeapon = 0;
+		var changeWeapons = m_actSceneController.player.playerWeapons;
+		if((m_selectWeapon + 1) < changeWeapons.Count) {
+			while(m_selectWeapon + 1 < changeWeapons.Count && changeWeapons[m_selectWeapon + 1].remainingBullet == 0){
+				m_selectWeapon++;
+			}
+			m_selectWeapon = (m_selectWeapon + 1 < changeWeapons.Count) ? m_selectWeapon + 1 : 0;
 		}else{
-			m_selectWeapon++;
+			m_selectWeapon = 0;
 		}
-		m_actSceneController.player.equipWeapon = m_actSceneController.player.playerWeapons[m_selectWeapon];
+		m_actSceneController.player.equipWeapon = changeWeapons[m_selectWeapon];
 	}
 
 	public void SetSkillIcon(){

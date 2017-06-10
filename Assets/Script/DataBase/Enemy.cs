@@ -19,6 +19,7 @@ public class Enemy{
 		None,
 		Wait,		//待機
 		Search,		//索敵
+		Trace,		//追跡
 		Attack,		//攻撃
 		Stan,		//スタン状態
 		Dead,		//死亡
@@ -38,4 +39,8 @@ public class Enemy{
 		itemDropProbability = dropProbabilyty;
 		enemyStatus = status;
     }
+
+	public Enemy(){
+		
+	}
 }

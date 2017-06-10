@@ -62,7 +62,7 @@ public class Player{
 	public Player(){
 
 	}
-	public Player SetInitialize(Player player)	//初期のプレイヤーデータ。最初から始めた時用
+	public Player SetInitialize(Player player)	//初期のプレイヤーデータ。最初から始めた時用。武器はあらかじめ所持してるが直す予定
     {
 		List<Item> initializeItems = new List<Item>();
 		List<Skill> initializeSkill = new List<Skill>();

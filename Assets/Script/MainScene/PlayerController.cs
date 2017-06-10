@@ -153,7 +153,8 @@ public class PlayerController : MonoBehaviour {
 			Destroy(col.gameObject);
 		}
 		else if (col.gameObject.tag == "Point") {
-			m_actSceneController.player.playerExp += 50;
+			int expPoint = int.Parse(col.gameObject.name);
+			m_actSceneController.player.playerExp += expPoint;
 			Debug.Log(m_actSceneController.player.playerExp);
 			Destroy(col.gameObject);
 		}

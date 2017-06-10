@@ -12,17 +12,34 @@ public class EnemyController : MonoBehaviour
 
     void Start()
     {
-        /* 
+        
         m_gameDataBase = GameObject.Find("GameDataBase").transform.GetComponent<GameDataBase>();
-        var m_gameScene = GameObject.Find("ActScene");
-        var test = m_gameScene.transform.FindChild("GameDataBase");
-        Debug.Log(m_gameScene);
-        */
+        
     }
 
     public void SetEnemys(GameDataBase gameDataBase,ActSceneContoller actSceneController){
         m_gameDataBase = gameDataBase;
         m_actSceneController = actSceneController;
+    }
+
+    public GameDataBase SetDataBase(){
+        return m_gameDataBase;
+    }
+
+    public Enemy SetEnemyStatus(GameObject enemyObj){
+       foreach (var enemyData in m_gameDataBase.enemyDatabase.enemys)
+        {
+            var i = 0;
+            var selectEnemyName = enemyObj.name.Replace("(Clone)","");
+            Debug.Log(selectEnemyName);
+            if (enemyData.enemyName == selectEnemyName)
+            {
+                Debug.Log(enemyData.enemyLife);
+                return m_gameDataBase.enemyDatabase.enemys[i];
+            }
+            i++;
+        }
+        return null;
     }
 
     public void DeadEffect(GameObject enemyObj)
@@ -37,6 +54,7 @@ public class EnemyController : MonoBehaviour
 
     public int CalculateDamage(int enemyHp){
         int playerATK = m_actSceneController.player.playerPower + m_actSceneController.player.equipWeapon.weaponPower;
+        Debug.Log("与えたダメージ : " + playerATK);
         enemyHp -= playerATK;
         return enemyHp;
     }
