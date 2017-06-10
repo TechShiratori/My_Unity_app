@@ -164,7 +164,7 @@ public class PlayerController : MonoBehaviour {
 			m_actSceneController.toWarp(col.gameObject);
 		}
 		if(col.gameObject.tag == "NextArea" && Input.GetKeyDown ("z")){
-			m_actSceneController.toNextArea();
+			m_actSceneController.toNextArea(col.gameObject);
 		}
 		if(col.gameObject.tag == "SavePoint" && Input.GetKeyDown ("s")){
 			m_actSceneController.SavePlayer();

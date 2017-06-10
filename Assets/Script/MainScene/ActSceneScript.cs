@@ -48,15 +48,21 @@ public class ActSceneScript : MonoBehaviour
         });
     }
 
-    public void NextArea(Action call = null){
+    public void NextArea(GameObject nextArea, Action call = null){
+
+        string nextAreaName = nextArea.name;
+        string nextAreaPointName = "NextArea_" + nextAreaName.Substring(12) + "to" + nextAreaName.Substring(9, 1);
+        string sceneName = "Floor" + nextAreaName.Substring(12);
+
         m_sceneController.WarpFadeIn(0.3f, ()=>{
-            SceneManager.LoadScene("Floor2");
+            SceneManager.LoadScene(sceneName);
             m_sceneController.SetBlackOut();
             StartCoroutine(m_actSceneController.WaitToAction(0.01f, () =>
                 {
                     m_sceneController.FirstFadeOut();
-                    var startPoint = GameObject.FindWithTag("ReStartPoint");
-                    m_playerObj.gameObject.transform.position = startPoint.transform.position;
+                    var nextAreaPoint = GameObject.Find(nextAreaPointName);
+                    //var startPoint = GameObject.FindWithTag("ReStartPoint");
+                    m_playerObj.gameObject.transform.position = nextAreaPoint.transform.position;
                 }));
         });
     }

@@ -101,8 +101,8 @@ public class ActSceneContoller : MonoBehaviour {
 	public void toWarp (GameObject warpPoint) {
 		m_actSceneScript.WarpOther(warpPoint);
 	}
-	public void toNextArea () {
-		m_actSceneScript.NextArea();
+	public void toNextArea (GameObject nextArea) {
+		m_actSceneScript.NextArea(nextArea);
 	}
 
 	public void toAction(){
