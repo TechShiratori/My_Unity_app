@@ -11,8 +11,7 @@ public class WeaponList : MonoBehaviour {
 
 	// Use this for initialization
 	public void setWeapon(Weapon weapon){
-		m_weaponNameText.text = weapon.weaponName;
-		m_weaponDesc.text = weapon.weaponDesc;
+		Debug.Log(weapon.weaponIconName);
 		m_weaponTexture.texture = Resources.Load<Texture2D>("WeaponIcon/" + weapon.weaponIconName);
 	}
 }

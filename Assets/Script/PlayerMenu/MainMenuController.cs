@@ -30,11 +30,9 @@ public class MainMenuController : MonoBehaviour {
 		float dx = Time.deltaTime * 1f;
 		keyPosition = 1;
 		count = 0;
-		selectButtonName = "MainMenuButton_1";
-		selectButton = GameObject.Find(selectButtonName);
-		selectSceneName = "Item";
+		selectSceneName = "Weapon";
 		selectMenu = GameObject.Find(selectSceneName);
-		m_cursor.transform.localPosition = new Vector2(0,selectButton.transform.localPosition.y);
+		m_cursor.transform.localPosition = GameObject.Find("MainMenuButton_1").transform.localPosition;
 	}
 	
 	public void Open(){
@@ -75,6 +73,6 @@ public class MainMenuController : MonoBehaviour {
 		m_menuButton = (MenuButton) keyPosition;
 		selectButtonName = "MainMenuButton_" + m_select.ToString();
 		selectButton = GameObject.Find(selectButtonName);
-		m_cursor.transform.localPosition = new Vector2(0,selectButton.transform.localPosition.y);
+		m_cursor.transform.localPosition = selectButton.transform.localPosition;
 	}
 }
