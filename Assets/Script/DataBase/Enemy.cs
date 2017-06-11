@@ -20,6 +20,7 @@ public class Enemy{
 		Wait,		//待機
 		Search,		//索敵
 		Trace,		//追跡
+		Charge,		//攻撃後などの硬直時
 		Attack,		//攻撃
 		Stan,		//スタン状態
 		Dead,		//死亡

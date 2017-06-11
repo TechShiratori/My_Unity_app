@@ -55,6 +55,7 @@ public class ActSceneContoller : MonoBehaviour {
 				m_playerController.PlayerAction(); // プレイヤーアクション
 				m_mainCamera.tracePlayer(); //カメラのプレイヤー追随
 				m_playerUIController.SetUI(); //プレイヤーのHP、バッドステータス、スキルアイコン、現在武器の反映
+				m_enemyController.EnemyAction(); //敵の動き
 				Time.timeScale = 1;
 				if (Input.GetKeyDown ("q")){
 					State = "Menu";
