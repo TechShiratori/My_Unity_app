@@ -46,10 +46,10 @@ public class SelectStart : MonoBehaviour {
 			Debug.Log("keyposition:" + keyPosition);
 		}
 		else if(Input.GetKey(KeyCode.Z) && count > 8 && keyPosition == 1){
-			SceneManager.LoadScene("MainScene");
+			SceneManager.LoadScene("Floor1");
 		}
 		else if(Input.GetKey(KeyCode.Z) && count > 8 && keyPosition == 2){
-			SceneManager.LoadScene("MainScene");
+			SceneManager.LoadScene("Floor1");
 		}
 		else if(Input.GetKey(KeyCode.Z) && count > 8 && keyPosition == 3){
 			Application.Quit();

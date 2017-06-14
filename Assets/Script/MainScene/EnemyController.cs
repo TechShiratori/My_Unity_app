@@ -23,9 +23,14 @@ public class EnemyController : MonoBehaviour
         }
     }
     public void EnemyAction(){
-        foreach(Transform child in transform){
-            if(child.gameObject.tag == "Enemy"){
-                child.GetComponentInChildren<EnemyScript>().ToAction();
+        if (null != this)
+        {
+            foreach (Transform child in transform)
+            {
+                if (child.gameObject.tag == "Enemy")
+                {
+                    child.GetComponentInChildren<EnemyScript>().ToAction();
+                }
             }
         }
     }

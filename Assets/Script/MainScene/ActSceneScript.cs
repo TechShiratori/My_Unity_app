@@ -90,9 +90,14 @@ public class ActSceneScript : MonoBehaviour
                 m_actSceneController.toRestart();
             });
         });
-
-        
     }
+
+    public void Ending(Action callback = null){
+        m_sceneController.OnFadeIn(0.3f);
+        SceneManager.LoadScene("Ending");
+        callback();
+    }
+
     public void GameOver(Action callback = null)
     {
         m_sceneController.OnFadeIn(0.3f);

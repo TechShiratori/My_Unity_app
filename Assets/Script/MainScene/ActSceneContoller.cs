@@ -96,7 +96,6 @@ public class ActSceneContoller : MonoBehaviour {
 		m_enemyController.SetEnemys(dataBase,this);
 		m_actSceneScript.SetInitialize(m_sceneController,m_playerObj);
 		player = dataBase.currentPlayer;
-		//Debug.Log(player.playerName);
 		State = "Action";
 	}
 	public void toWarp (GameObject warpPoint) {
@@ -127,8 +126,6 @@ public class ActSceneContoller : MonoBehaviour {
 	public void LoadPlayer(){
 		player = dataBase.Load();
 		m_actSceneScript.LoadPosition(player);
-		//SceneManager.LoadScene(player.playerSave);
-		
 	}
 
 	public void GetSkill(Skill skill){
@@ -205,5 +202,9 @@ public class ActSceneContoller : MonoBehaviour {
 		action();
     }
 
-
+	public void Ending(){
+		m_actSceneScript.Ending(()=>{
+			Destroy(transform.parent.gameObject);
+		});
+	}
 }

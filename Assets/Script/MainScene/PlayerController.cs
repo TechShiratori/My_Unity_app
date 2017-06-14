@@ -170,6 +170,9 @@ public class PlayerController : MonoBehaviour {
 		if(col.gameObject.tag == "SavePoint" && Input.GetKeyDown ("s")){
 			m_actSceneController.SavePlayer();
 		}
+		if(col.gameObject.tag == "EndingPoint" && Input.GetKeyDown ("z")){
+			m_actSceneController.Ending();
+		}
 	}
 	
 
